@@ -1,5 +1,3 @@
-import { BasicExecutionNode } from "./node";
-
 export class Port {
   private buffer: Array<number>;
 
@@ -8,7 +6,7 @@ export class Port {
   }
 
   getValue(): number {
-    if (this.buffer.length == 0) return null;
+    if (this.buffer.length === 0) return null;
 
     return this.buffer.pop();
   }

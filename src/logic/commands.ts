@@ -56,7 +56,7 @@ export class MovCommand extends AbsCommand {
   private state: Status;
 
   executeRead() {
-    if (this.node.getState() == Status.WRTE) return;
+    if (this.node.getState() === Status.WRTE) return;
 
     this.valRead = this.src.readValue();
     if (this.valRead == null) {
@@ -69,7 +69,7 @@ export class MovCommand extends AbsCommand {
   executeWrite() {
     if (this.valRead == null) return;
 
-    if (this.node.getState() != Status.WRTE) this.dst.writeValue(this.valRead);
+    if (this.node.getState() !== Status.WRTE) this.dst.writeValue(this.valRead);
 
     if (this.dst.hasValue()) {
       this.node.setState(Status.WRTE);
@@ -193,7 +193,7 @@ export class JezCommand extends AbsCommand {
   }
 
   executeRead() {
-    if (this.node.getACC() == 0)
+    if (this.node.getACC() === 0)
       this.node.setIndex(this.node.findIndex(this.src) - 1);
 
     super.executeRead();
@@ -210,7 +210,7 @@ export class JnzCommand extends AbsCommand {
   }
 
   executeRead() {
-    if (this.node.getACC() != 0)
+    if (this.node.getACC() !== 0)
       this.node.setIndex(this.node.findIndex(this.src) - 1);
 
     super.executeRead();

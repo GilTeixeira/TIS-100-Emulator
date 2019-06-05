@@ -50,7 +50,7 @@ export class BasicExecutionNode {
 
   findIndex(label: string): number {
     for (var i = 0; i < this.commands.length; i++) {
-      if (this.commands[i].getLabel() == label) return i;
+      if (this.commands[i].getLabel() === label) return i;
     }
     throw new Error("Label not found.");
   }

@@ -3,8 +3,7 @@ import { Directions } from "./macros";
 import { MovCommand } from "./commands";
 import { ArgumentDir, ArgumentValue, ArgumentACC } from "./command_args";
 
-let factory = new NodeFactory(2, 2);
-let grid = factory.getGrid();
+let grid = NodeFactory.getNodeGrid(2, 2);
 const newline = "\n";
 
 // tests ports
