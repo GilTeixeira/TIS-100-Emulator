@@ -1,0 +1,20 @@
+{
+    "name": "chevrotain_examples_tutorial",
+    "version": "4.6.0",
+    "scripts": {
+        "test": "mocha \"step*/*spec.js\"",
+        "start": "node index.js",
+        "main": "node main.js",
+        "lexer-test": "mocha lexer_text.js",
+        "parser-test": "mocha parser.test.js"
+    },
+    "dependencies": {
+        "chevrotain": "^4.6.0"
+    },
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "lodash": "^4.17.4",
+        "mocha": "^6.1.2"
+    },
+    "private": true
+}
