@@ -3,6 +3,8 @@ import { Directions, Status } from "./macros";
 import Command from "./commands";
 
 export class BasicExecutionNode {
+  private static _id: number = 0;
+  private id: number;
   private ACC: number = 0;
   private BAK: number = 0;
   private dstPorts: Port[];
@@ -13,6 +15,8 @@ export class BasicExecutionNode {
   public state: Status = Status.IDLE;
 
   constructor(instructions: String[]) {
+    this.id = BasicExecutionNode._id++;
+
     this.dstPorts = [
       new NullPort(),
       new NullPort(),
@@ -61,6 +65,10 @@ export class BasicExecutionNode {
 
   getIndex(): number {
     return this.index;
+  }
+
+  getID(): number {
+    return this.id;
   }
 
   incIndex() {
