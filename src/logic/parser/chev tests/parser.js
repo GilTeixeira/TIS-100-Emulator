@@ -49,8 +49,10 @@ const Acc = tokenVocabulary.Acc
 const Bak = tokenVocabulary.Bak
 
 const Colon = tokenVocabulary.Colon
+const Newline = tokenVocabulary.Newline
 const Integer = tokenVocabulary.Integer
 const Identifier = tokenVocabulary.Identifier
+const WhiteSpace = tokenVocabulary.WhiteSpace
 
 
 
@@ -65,8 +67,10 @@ class SelectParser extends CstParser {
         const $ = this
 
         $.RULE("program", () => {
-            $.AT_LEAST_ONE({
+            $.AT_LEAST_ONE_SEP({
+                SEP: Newline,
                 DEF: () => {
+                    /*
                     $.OPTION(function () {
                         $.SUBRULE($.label)
                     })
@@ -79,8 +83,32 @@ class SelectParser extends CstParser {
                         $.SUBRULE2($.label)
                         $.SUBRULE2($.instruction)
                     })
+                        */
+                    $.OPTION(function () {
+                        $.SUBRULE($.line)
+                    })
+
                 }
+
             })
+        })
+
+        $.RULE("line", () => {
+            $.OR([
+                {
+                    ALT: () => {
+                        $.SUBRULE($.label)
+                        $.SUBRULE($.instruction)
+                    }
+                },
+                { ALT: () => $.SUBRULE2($.instruction) },
+                { ALT: () => $.SUBRULE2($.label) }
+
+
+
+
+            ])
+
         })
 
         $.RULE("label", () => {
@@ -89,15 +117,14 @@ class SelectParser extends CstParser {
         })
 
         $.RULE("instruction", () => {
-
             $.OR([
-                { ALT: () => $.SUBRULE($.nullOps) },
+                { ALT: () => $.SUBRULE($.nullOp) },
                 { ALT: () => $.SUBRULE($.unaryOp) },
                 { ALT: () => $.SUBRULE($.binaryOp) },
                 { ALT: () => $.SUBRULE($.jumpOp) }
             ])
         })
-        $.RULE("nullOps", () => {
+        $.RULE("nullOp", () => {
             $.OR([
                 { ALT: () => $.CONSUME(Nop) },
                 { ALT: () => $.CONSUME(Swp) },
@@ -145,7 +172,7 @@ class SelectParser extends CstParser {
                 { ALT: () => $.CONSUME(Integer) }
             ])
         })
-        
+
         $.RULE("port", () => {
             $.OR([
                 { ALT: () => $.CONSUME(Left) },
@@ -156,6 +183,8 @@ class SelectParser extends CstParser {
                 { ALT: () => $.CONSUME(Last) }
             ])
         })
+
+
 
         $.RULE("register", () => {
             $.OR([
@@ -170,7 +199,25 @@ class SelectParser extends CstParser {
 }
 
 // We only ever need one as the parser internal state is reset for each new input.
-const parserInstance = new SelectParser()
+const parser = new SelectParser([])
+const parserInstance = new SelectParser([])
+
+function parseInput(text) {
+    const lexingResult = selectLexer.lex(text)
+    // "input" is a setter which will reset the parser's state.
+    parser.input = lexingResult.tokens
+    parser.program()
+
+    if (parser.errors.length > 0) {
+        console.log(text)
+        console.log(parser.errors)
+        throw new Error("sad sad panda, Parsing errors detected")
+    }
+}
+
+const inputText = "nop \n nop \n label: nop"
+parseInput(inputText)
+
 
 module.exports = {
     parserInstance: parserInstance,

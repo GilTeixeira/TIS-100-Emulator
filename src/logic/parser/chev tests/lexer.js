@@ -179,9 +179,15 @@ const Colon = createToken({
     //group: Lexer.SKIPPED
 })
 
+const Newline = createToken({
+    name: "Newline",
+    pattern: /(\r\n|\r|\n)/
+})
+
+
 const WhiteSpace = createToken({
     name: "WhiteSpace",
-    pattern: /\s+/,
+    pattern: /[ \t]/,
     group: Lexer.SKIPPED
 })
 
@@ -213,6 +219,7 @@ const allTokens = [
     //Label,
     Comment,
     Comma,
+    Newline,
     Colon,
     Integer,
     Identifier //  the Identifier Token must appear after ALL the Keyword Tokens
@@ -231,6 +238,8 @@ module.exports = {
         const lexingResult = SelectLexer.tokenize(inputText)
 
         if (lexingResult.errors.length > 0) {
+            console.log(inputText)
+            console.log(lexingResult.errors)
             throw Error("Sad Sad Panda, lexing errors detected")
         }
 

@@ -5,8 +5,11 @@
         "test": "mocha \"step*/*spec.js\"",
         "start": "node index.js",
         "main": "node main.js",
+        "visitor": "node visitor.js",
+        "parser": "node parser.js",
         "lexer-test": "mocha lexer_text.js",
-        "parser-test": "mocha parser.test.js"
+        "parser-test": "mocha parser.test.js",
+        "visitor-test": "mocha visitor.text.js"
     },
     "dependencies": {
         "chevrotain": "^4.6.0"

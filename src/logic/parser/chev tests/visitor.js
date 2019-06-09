@@ -13,7 +13,7 @@ const parser = require("./parser")
 const SelectParser = parser.SelectParser
 
 // A new parser instance with CST output (enabled by default).
-const parserInstance = new SelectParser([])
+let parserInstance = new SelectParser([])
 // The base visitor class can be accessed via the a parser instance.
 const BaseSQLVisitor = parserInstance.getBaseCstVisitorConstructor()
 
@@ -23,104 +23,239 @@ class SQLToAstVisitor extends BaseSQLVisitor {
         this.validateVisitor()
     }
 
-    selectStatement(ctx) {
+    program(ctx) {
         // "this.visit" can be used to visit none-terminals and will invoke the correct visit method for the CstNode passed.
-        const select = this.visit(ctx.selectClause)
+        //console.log(ctx.line)
 
-        //  "this.visit" can work on either a CstNode or an Array of CstNodes.
-        //  If an array is passed (ctx.fromClause is an array) it is equivalent
-        //  to passing the first element of that array
-        const from = this.visit(ctx.fromClause)
+        const lines = ctx.line.map(line => this.visit(line))
+        //console.log(lines)
+
+        return lines
+        /*
+        return {
+            type: 'PROGRAM',
+            lines: lines
+
+        }*/
+    }
+
+
+
+    line(ctx) {
+
+        const label = this.visit(ctx.label) || {}
 
         // "whereClause" is optional, "this.visit" will ignore empty arrays (optional)
-        const where = this.visit(ctx.whereClause)
+        let instruction = this.visit(ctx.instruction) || {}
+        const line = (label.line || instruction.line) - 1
+        delete instruction.line;
 
         return {
-            type: "SELECT_STMT",
-            selectClause: select,
-            fromClause: from,
-            whereClause: where
+            type: "LINE",
+            label: label.name,
+            instruction: instruction,
+            line: line
         }
+
     }
 
-    selectClause(ctx) {
-        // Each Terminal or Non-Terminal in a grammar rule are collected into
-        // an array with the same name(key) in the ctx object.
-        const columns = ctx.Identifier.map(identToken => identToken.image)
-
+    label(ctx) {
+       
         return {
-            type: "SELECT_CLAUSE",
-            columns: columns
+            name: ctx.Identifier[0].image,
+            line: ctx.Identifier[0].startLine
         }
+
     }
 
-    fromClause(ctx) {
-        const tableName = ctx.Identifier[0].image
+    instruction(ctx) {
+        
+        if (ctx.nullOp)
+            return this.visit(ctx.nullOp)
+        else if (ctx.unaryOp)
+            return this.visit(ctx.unaryOp)
+        else if (ctx.binaryOp)
+            return this.visit(ctx.binaryOp)
+        else if (ctx.jumpOp)
+            return this.visit(ctx.jumpOp)
 
-        return {
-            type: "FROM_CLAUSE",
-            table: tableName
-        }
+
+
     }
 
-    whereClause(ctx) {
-        const condition = this.visit(ctx.expression)
+    nullOp(ctx) {
+        //console.log(ctx)
+        const op = ctx.Nop || ctx.Swp || ctx.Sav || ctx.Neg
 
         return {
-            type: "WHERE_CLAUSE",
-            condition: condition
+            operator: op[0].image,
+            line: op[0].startLine
         }
+
     }
 
-    expression(ctx) {
-        // Note the usage of the "rhs" and "lhs" labels defined in step 2 in the expression rule.
-        const lhs = this.visit(ctx.lhs[0])
-        const operator = this.visit(ctx.relationalOperator)
-        const rhs = this.visit(ctx.rhs[0])
+    unaryOp(ctx) {
+        const op = ctx.Sub || ctx.Add
+
+        const operand = this.visit(ctx.operand)
 
         return {
-            type: "EXPRESSION",
+            operator: op[0].image,
+            lhs: operand,
+            line: op[0].startLine
+        }
+        /*
+        const op = ctx.Nop || ctx.Nop 
+        return {
+            operator: ctx.Nop[0].image,
             lhs: lhs,
+        }*/
+
+    }
+
+
+    binaryOp(ctx) {
+        console.log(ctx)
+        const op = ctx.Mov
+
+        const lhs = this.visit(ctx.lhs)
+        const rhs = this.visit(ctx.rhs)
+
+
+        return {
+            operator: op[0].image,
+            lhs: lhs,
+            rhs: rhs,
+            line: op[0].startLine
+        }
+
+    }
+
+
+    jumpOp(ctx) {
+        //console.log(ctx)
+        
+        const operator = this.visit(ctx.jumpOps)
+
+        return {
             operator: operator,
-            rhs: rhs
+            lhs: ctx.Identifier[0].image,
+            line: ctx.Identifier[0].startLine
         }
+
     }
 
-    // these two visitor methods will return a string.
-    atomicExpression(ctx) {
-        if (ctx.Integer) {  
-            return ctx.Integer[0].image
-        } else {
-            return ctx.Identifier[0].image
-        }
+
+    operand(ctx) {
+        //console.log(ctx)
+
+        if (ctx.Integer)
+            return {
+                type: "Integer",
+                value: ctx.Integer[0].image
+
+            }
+        else if (ctx.register)
+            return this.visit(ctx.register)
+        else if (ctx.port)
+            return this.visit(ctx.port)
+
+
     }
 
-    relationalOperator(ctx) {
-        if (ctx.GreaterThan) {
-            return ctx.GreaterThan[0].image
-        } else {
-            return ctx.LessThan[0].image
+
+    port(ctx) {
+        //console.log(ctx)
+        const port = ctx.Left || ctx.Right || ctx.Up || ctx.Down || ctx.Any || ctx.Last
+
+
+        return {
+            type: "Port",
+            value: port[0].image
+
         }
+
     }
+
+    register(ctx) {
+ 
+        //console.log(ctx)
+        const reg = ctx.Nil || ctx.Acc || ctx.Bak || ctx.Down || ctx.Any || ctx.Last
+
+
+        return {
+            type: "Register",
+            value: reg[0].image
+
+        }
+
+    }
+
+    jumpOps(ctx) {
+       //console.log(ctx)
+
+        const jump = ctx.Jmp || ctx.Jez || ctx.Jnz || ctx.Jgz || ctx.Jlz || ctx.Jro
+        return jump[0].image
+
+    }
+
+
 }
 
 // Our visitor has no state, so a single instance is sufficient.
+
+
+
+//
+parserInstance = new SelectParser([], { outputCst: true })
+// Our visitor has no state, so a single instance is sufficient.
 const toAstVisitorInstance = new SQLToAstVisitor()
 
+function toAst(inputText) {
+    // Lex
+    const lexResult = selectLexer.lex(inputText)
+    parserInstance.input = lexResult.tokens
+
+    // Automatic CST created when parsing
+    const cst = parserInstance.program()
+    if (parserInstance.errors.length > 0) {
+        throw Error(
+            "Sad sad panda, parsing errors detected!\n" +
+            parserInstance.errors[0].message
+        )
+    }
+
+    // Visit
+    const ast = toAstVisitorInstance.visit(cst)
+    return ast
+}
+//console.log("nop \n label: nop \n label2: nop \n \n ")
+//console.log()
+//console.log('toAst("nop \n label: nop \n \n label2: nop \n \n jmp label"')
+const res = toAst("mov 3 left\n label: sub acc \n add left\n label2: nop \n \n jmp label")
+console.log(res)
+console.log(res[0].instruction.lhs)
+console.log(res[0].instruction.rhs)
+console.log(res[1].instruction.lhs)
+console.log(res[4].instruction.lhs)
+
+
+//
+
 module.exports = {
-    toAst: function(inputText) {
+    toAst: function (inputText) {
         const lexResult = selectLexer.lex(inputText)
 
         // ".input" is a setter which will reset the parser's internal's state.
         parserInstance.input = lexResult.tokens
 
         // Automatic CST created when parsing
-        const cst = parserInstance.selectStatement()
+        const cst = parserInstance.program()
 
         if (parserInstance.errors.length > 0) {
             throw Error(
                 "Sad sad panda, parsing errors detected!\n" +
-                    parserInstance.errors[0].message
+                parserInstance.errors[0].message
             )
         }
 
