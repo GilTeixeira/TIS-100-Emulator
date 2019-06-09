@@ -5,14 +5,6 @@ import { parse } from "../parser/parser";
 import { toAst } from "../parser/visitor";
 import 'mocha';
 
-
-//const toAstVisitor = require("./visitor").toAst
-
-
-
-//const _ = require("lodash")
-
-
 describe("Parser", () => {
     context("Step 1 - Lexing", () => {
         it("Can Lex a simple input", () => {
@@ -28,7 +20,6 @@ describe("Parser", () => {
             expect(tokens[2].image).to.equal("ACC")
             expect(tokens[3].image).to.equal("\n")
             expect(tokens[4].image).to.equal("NOP")
-
 
             // tokenMatcher acts as an "instanceof" check for Tokens
             expect(tokenMatcher(tokens[0], tokenVocabulary.Mov)).to.be.true
@@ -47,7 +38,7 @@ describe("Parser", () => {
         })
 
         it("Will throw an error for an invalid input", () => {
-            // missing table name
+            // missing jump label
             let inputText = "JMP"
             expect(() => parse(inputText)).to.throw(
                 "Expecting token of type --> Identifier <-- but found --> '' <--"
@@ -95,6 +86,3 @@ describe("Parser", () => {
         })
     })
 })
-
-
-

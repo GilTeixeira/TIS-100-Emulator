@@ -1,6 +1,5 @@
 import { Lexer as ChevLexer, createToken } from "chevrotain";
 
-
 // the vocabulary will be exported and used in the Parser definition.
 let tokenVocabulary: any = {}
 
@@ -75,12 +74,6 @@ const Comment = createToken({
     pattern: /#.*/,
     group: ChevLexer.SKIPPED
 })
-
-/*
-const Label = createToken({
-    name: "Label",
-    pattern: /[A-Za-z0-9\-\_]+:/
-})*/
 
 const Nop = createToken({
     name: "Nop",
@@ -169,7 +162,6 @@ const Comma = createToken({
 const Colon = createToken({
     name: "Colon",
     pattern: /:/
-    //group: Lexer.SKIPPED
 })
 
 const Newline = createToken({
@@ -209,7 +201,6 @@ const allTokens = [
     Jgz,
     Jlz,
     Jro,
-    //Label,
     Comment,
     Comma,
     Newline,
@@ -230,26 +221,9 @@ function lex(inputText) {
     if (lexingResult.errors.length > 0) {
         throw Error("Lexing errors detected")
     }
-
     return lexingResult
 }
-
 
 export {
     tokenVocabulary, lexer, lex
 }
-
-
-/*
-    lex: function (inputText) {
-        const lexingResult = SelectLexer.tokenize(inputText)
-
-        if (lexingResult.errors.length > 0) {
-            console.log(inputText)
-            console.log(lexingResult.errors)
-            throw Error("Sad Sad Panda, lexing errors detected")
-        }
-
-        return lexingResult
-    }
-}*/
