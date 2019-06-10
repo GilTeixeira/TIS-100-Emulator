@@ -17,6 +17,7 @@
     "build": "react-scripts build",
     "test-react": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src/logic/**.ts",
     "test": "cross-env TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register -r ignore-styles -r jsdom-global/register src/**/*.spec.ts"
   },
   "eslintConfig": {

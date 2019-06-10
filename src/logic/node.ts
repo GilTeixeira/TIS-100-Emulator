@@ -14,7 +14,7 @@ export class BasicExecutionNode {
 
   public state: Status = Status.IDLE;
 
-  constructor(instructions: String[]) {
+  constructor(instructions: string[]) {
     this.id = BasicExecutionNode._id++;
 
     this.dstPorts = [
@@ -111,5 +111,5 @@ export class BasicExecutionNode {
     this.commands[this.index].executeWrite();
   }
 
-  parseInstructions(instructions: String[]): void {}
+  parseInstructions(instructions: string[]): void {}
 }

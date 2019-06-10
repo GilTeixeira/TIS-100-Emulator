@@ -4,7 +4,7 @@ import { AbsArgument } from "./command_args";
 
 export default interface ICommand {
   node: BasicExecutionNode;
-  line: Number;
+  line: number;
 
   executeRead(): void;
   executeWrite(): void;
@@ -15,9 +15,13 @@ export default interface ICommand {
 }
 
 export abstract class AbsCommand implements ICommand {
-  constructor(readonly node: BasicExecutionNode, readonly labels: string[], readonly line: Number) { }
+  constructor(
+        readonly node: BasicExecutionNode,
+        readonly labels: string[],
+        readonly line: number
+    ) {}
 
-  executeRead() { }
+  executeRead() {}
 
   executeWrite() {
     this.node.incIndex();
@@ -49,7 +53,7 @@ export class MovCommand extends AbsCommand {
     labels: string[],
     readonly src: AbsArgument,
     private dst: AbsArgument,
-    readonly line: Number
+    readonly line: number
   ) {
     super(node, labels, line);
   }
@@ -114,7 +118,7 @@ export class AddCommand extends AbsCommand {
     node: BasicExecutionNode,
     labels: string[],
     readonly src: AbsArgument,
-    readonly line: Number
+    readonly line: number
   ) {
     super(node, labels, line);
   }
@@ -141,7 +145,7 @@ export class SubCommand extends AbsCommand {
     node: BasicExecutionNode,
     labels: string[],
     readonly src: AbsArgument,
-    readonly line: Number
+    readonly line: number
   ) {
     super(node, labels, line);
   }
@@ -176,7 +180,12 @@ export class NegCommand extends AbsCommand {
 }
 
 export class JmpCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: string,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 
@@ -192,7 +201,12 @@ export class JmpCommand extends AbsCommand {
 }
 
 export class JezCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: string,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 
@@ -209,7 +223,12 @@ export class JezCommand extends AbsCommand {
 }
 
 export class JnzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: string,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 
@@ -226,7 +245,12 @@ export class JnzCommand extends AbsCommand {
 }
 
 export class JgzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: string,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 
@@ -242,7 +266,12 @@ export class JgzCommand extends AbsCommand {
   }
 }
 export class JlzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: string,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 
@@ -258,7 +287,12 @@ export class JlzCommand extends AbsCommand {
   }
 }
 export class JroCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, labels: string[], readonly src: number, readonly line: Number) {
+  constructor(
+        node: BasicExecutionNode,
+        labels: string[],
+        readonly src: number,
+        readonly line: number
+    ) {
     super(node, labels, line);
   }
 

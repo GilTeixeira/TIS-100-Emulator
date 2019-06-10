@@ -1,5 +1,5 @@
 export class Port {
-  private buffer: Array<number>;
+  private buffer: number[];
 
   constructor() {
     this.buffer = Array<number>();
