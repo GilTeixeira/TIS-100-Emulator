@@ -5,7 +5,7 @@ export class Port {
     this.buffer = Array<number>();
   }
 
-  getValue(): number {
+  popValue(): number {
     if (this.buffer.length === 0) return null;
 
     return this.buffer.pop();
@@ -20,10 +20,14 @@ export class Port {
   hasValue(): boolean {
     return this.buffer.length > 0;
   }
+
+  getValue(): number {
+    return this.buffer[0];
+  }
 }
 
 export class NullPort extends Port {
-  getValue(): number {
+  popValue(): number {
     return null;
   }
 

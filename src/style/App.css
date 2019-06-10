@@ -3,7 +3,24 @@ body {
   background-color: black;
 }
 
+/* NodeGrid */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  margin: 48px 0 0 48px;
+}
+
+.gridRow {
+  display: flex;
+  flex-direction: row;
+}
+
+
+/* Node */
+
 .node {
+  position: relative;
   height: 220px;
   width: 220px;
   color: white;
@@ -11,11 +28,12 @@ body {
   display: flex;
   flex-direction: row;
   font-size: 16px;
+  margin: 0 48px 48px 0;
 }
 
 .node .editor {
   flex: 1;
-  padding: 4px;
+  padding: 4px 8px;
 }
 
 .node .editor input {
@@ -52,3 +70,56 @@ body {
   color: #7c7c7c;
 }
 
+.port {
+  position: absolute;
+  z-index: 10;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.port .arrow {
+  height: 18px;
+  width: 18px;
+}
+
+.port .value {
+  height: 18px;
+}
+
+.port.UP {
+  top: -52px;
+  left: 56px;
+}
+
+.port.UP .arrow {
+  transform: rotate(90deg)
+}
+
+.port.RIGHT {
+  right: -52px;
+  bottom: 56px;
+  flex-direction: column;
+}
+
+.port.port.RIGHT .arrow {
+  transform: rotate(180deg)
+}
+
+.port.LEFT {
+  left: -52px;
+  top: 56px;
+  flex-direction: column;
+}
+
+.port.DOWN {
+  bottom: -52px;
+  right: 56px;
+}
+
+.port.DOWN .arrow {
+  transform: rotate(-90deg)
+}

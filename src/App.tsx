@@ -1,19 +1,19 @@
 import React from "react";
 import "./style/App.css";
 import { Tis100 } from "./logic/tis_100";
-import Node from "./components/Node";
+import NodeGrid from "./components/NodeGrid";
+import ControlPanel from "./components/ControlPanel";
 
 class App extends React.Component {
   render() {
-    const tis_100 = new Tis100(4, 4);
+    const tis_100 = new Tis100(3, 2);
 
-    let grid = tis_100.getGrid().map(gridRow => {
-      let nodes = gridRow.map(node => <Node node={node} />);
-
-      return <div>{nodes}</div>;
-    });
-
-    return <div className="App"><Node node={tis_100.getGrid()[0][0]} /></div>;
+    return (
+    <div className="app">
+      <ControlPanel />
+      <NodeGrid grid={tis_100.getGrid()} />
+    </div>
+    );
   }
 }
 

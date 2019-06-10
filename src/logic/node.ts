@@ -56,6 +56,10 @@ export class BasicExecutionNode {
     return this.commands;
   }
 
+  public getSrcPorts(): Port[] {
+    return this.srcPorts;
+  }
+
   findIndex(label: string): number {
     for (var i = 0; i < this.commands.length; i++) {
       if (this.commands[i].getLabels().includes(label)) return i;
@@ -100,7 +104,7 @@ export class BasicExecutionNode {
   }
 
   readNumber(direction: Directions): number {
-    return this.srcPorts[direction].getValue();
+    return this.srcPorts[direction].popValue();
   }
 
   hasValue(direction: Directions): boolean {

@@ -1,11 +1,20 @@
 export enum Directions {
-  UP = "UP",
-  RIGHT = "RIGHT",
-  DOWN = "DOWN",
-  LEFT = "LEFT",
-  ANY = "ANY",
-  LAST = "LAST"
+  UP,
+  RIGHT,
+  DOWN,
+  LEFT,
+  ANY,
+  LAST
 }
+
+// export enum Directions {
+//   UP = "UP",
+//   RIGHT = "RIGHT",
+//   DOWN = "DOWN",
+//   LEFT = "LEFT",
+//   ANY = "ANY",
+//   LAST = "LAST"
+// }
 
 export enum Status {
   IDLE = "IDLE",
