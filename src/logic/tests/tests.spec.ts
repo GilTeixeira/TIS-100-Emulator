@@ -32,9 +32,10 @@ describe('Test NodeFactory', () => {
     let nodeTopRight = grid[0][1];
     let cmd = new MovCommand(
       nodeTopLeft,
-      "testCommands",
+      ["testCommands"],
       new ArgumentValue(3),
-      new ArgumentDir(nodeTopLeft, Directions.RIGHT)
+      new ArgumentDir(nodeTopLeft, Directions.RIGHT),
+      0
     );
     cmd.execute();
     expect(nodeTopLeft.getState()).to.equal(Status.RUN);
@@ -42,16 +43,18 @@ describe('Test NodeFactory', () => {
 
     cmd = new MovCommand(
       nodeTopLeft,
-      "testCommands",
+      ["testCommands"],
       new ArgumentValue(6),
-      new ArgumentDir(nodeTopLeft, Directions.RIGHT)
+      new ArgumentDir(nodeTopLeft, Directions.RIGHT),
+      1
     );
     cmd.execute();
     cmd = new MovCommand(
       nodeTopRight,
-      "testCommands",
+      ["testCommands"],
       new ArgumentDir(nodeTopRight, Directions.LEFT),
-      new ArgumentACC(nodeTopRight)
+      new ArgumentACC(nodeTopRight),
+      2
     );
     cmd.execute();
 

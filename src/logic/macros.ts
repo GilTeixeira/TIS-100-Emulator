@@ -1,8 +1,10 @@
 export enum Directions {
-  UP = 0,
-  RIGHT = 1,
-  DOWN = 2,
-  LEFT = 3
+  UP = "UP",
+  RIGHT = "RIGHT",
+  DOWN = "DOWN",
+  LEFT = "LEFT",
+  ANY = "ANY",
+  LAST = "LAST"
 }
 
 export enum Status {
@@ -10,4 +12,20 @@ export enum Status {
   RUN = "RUN",
   READ = "READ",
   WRTE = "WRITE"
+}
+
+export enum Instructions {
+  NOP = "NOP",
+  SWP = "SWP",
+  SAV = "SAV",
+  NEG = "NEG",
+  SUB = "SUB",
+  ADD = "ADD",
+  MOV = "MOV",
+  JMP = "JMP",
+  JEZ = "JEZ",
+  JNZ = "JNZ",
+  JGZ = "JGZ",
+  JLZ = "JLZ",
+  JRO = "JRO"
 }

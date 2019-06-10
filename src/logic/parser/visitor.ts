@@ -32,7 +32,7 @@ class AstVisitor extends BaseVisitor {
 
     label(ctx) {
         return {
-            name: ctx.Identifier[0].image,
+            name: ctx.Identifier[0].image.toUpperCase(),
             line: ctx.Identifier[0].startLine
         }
     }
@@ -52,7 +52,7 @@ class AstVisitor extends BaseVisitor {
         const op = ctx.Nop || ctx.Swp || ctx.Sav || ctx.Neg
 
         return {
-            operator: op[0].image,
+            operator: op[0].image.toUpperCase(),
             line: op[0].startLine
         }
     }
@@ -62,7 +62,7 @@ class AstVisitor extends BaseVisitor {
         const operand = this.visit(ctx.operand)
 
         return {
-            operator: op[0].image,
+            operator: op[0].image.toUpperCase(),
             lhs: operand,
             line: op[0].startLine
         }
@@ -75,7 +75,7 @@ class AstVisitor extends BaseVisitor {
         const rhs = this.visit(ctx.rhs)
 
         return {
-            operator: op[0].image,
+            operator: op[0].image.toUpperCase(),
             lhs: lhs,
             rhs: rhs,
             line: op[0].startLine
@@ -88,7 +88,7 @@ class AstVisitor extends BaseVisitor {
 
         return {
             operator: operator,
-            lhs: ctx.Identifier[0].image,
+            lhs: ctx.Identifier[0].image.toUpperCase(),
             line: ctx.Identifier[0].startLine
         }
     }
@@ -98,8 +98,7 @@ class AstVisitor extends BaseVisitor {
         if (ctx.Integer)
             return {
                 type: "Integer",
-                value: ctx.Integer[0].image
-
+                value: parseInt(ctx.Integer[0].image)
             }
         else if (ctx.register)
             return this.visit(ctx.register)
@@ -113,22 +112,22 @@ class AstVisitor extends BaseVisitor {
 
         return {
             type: "Port",
-            value: port[0].image
+            value: port[0].image.toUpperCase()
         }
     }
 
     register(ctx) {
-        const reg = ctx.Nil || ctx.Acc || ctx.Bak || ctx.Down || ctx.Any || ctx.Last
+        const reg = ctx.Nil || ctx.Acc
 
         return {
             type: "Register",
-            value: reg[0].image
+            value: reg[0].image.toUpperCase()
         }
     }
 
     jumpOps(ctx) {
         const jump = ctx.Jmp || ctx.Jez || ctx.Jnz || ctx.Jgz || ctx.Jlz || ctx.Jro
-        return jump[0].image
+        return jump[0].image.toUpperCase()
     }
 }
 

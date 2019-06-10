@@ -33,7 +33,6 @@ const Last = tokenVocabulary.Last
 //Registers
 const Nil = tokenVocabulary.Nil
 const Acc = tokenVocabulary.Acc
-const Bak = tokenVocabulary.Bak
 
 //Values
 const Integer = tokenVocabulary.Integer
@@ -151,8 +150,7 @@ class Parser extends CstParser {
     private register = this.RULE("register", () => {
         this.OR([
             { ALT: () => this.CONSUME(Nil) },
-            { ALT: () => this.CONSUME(Acc) },
-            { ALT: () => this.CONSUME(Bak) }
+            { ALT: () => this.CONSUME(Acc) }
         ])
     })
 }

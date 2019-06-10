@@ -21,12 +21,6 @@ const Acc = createToken({
     longer_alt: Identifier
 })
 
-const Bak = createToken({
-    name: "Bak",
-    pattern: /Bak/i,
-    longer_alt: Identifier
-})
-
 const Nil = createToken({
     name: "Nil",
     pattern: /Nil/i,
@@ -180,7 +174,6 @@ const WhiteSpace = createToken({
 const allTokens = [
     WhiteSpace,
     Acc,
-    Bak,
     Nil,
     Left,
     Right,

@@ -46,41 +46,41 @@ describe("Parser", () => {
         })
     })
 
-    context("Step 3a - Actions (semantics) using CST Visitor", () => {
+    context("Step 3 - Actions (semantics) using CST Visitor", () => {
         it("Can convert a simple input to an AST", () => {
             const inputText =
-                "mov 3 left\n label: sub acc \n add left\n label2: nop \n \n jmp label"
+                "mov 3 lEft\n label: sub acc \n add left\n label2: nop \n \n jmp label"
             const ast = toAst(inputText)
             
             
             expect(ast).to.deep.equal([{
                 type: 'LINE',
                 label: undefined,
-                instruction: { operator: 'mov', lhs: { type: 'Integer', value: "3" }, rhs: { type: 'Port', value: 'left' } },
+                instruction: { operator: 'MOV', lhs: { type: 'Integer', value: 3 }, rhs: { type: 'Port', value: 'LEFT' } },
                 line: 0
             },
             {
                 type: 'LINE',
-                label: 'label',
-                instruction: { operator: 'sub', lhs: { type: 'Register', value: 'acc' } },
+                label: 'LABEL',
+                instruction: { operator: 'SUB', lhs: { type: 'Register', value: 'ACC' } },
                 line: 1
             },
             {
                 type: 'LINE',
                 label: undefined,
-                instruction: { operator: 'add', lhs: { type: 'Port', value: 'left' } },
+                instruction: { operator: 'ADD', lhs: { type: 'Port', value: 'LEFT' } },
                 line: 2
             },
             {
                 type: 'LINE',
-                label: 'label2',
-                instruction: { operator: 'nop' },
+                label: 'LABEL2',
+                instruction: { operator: 'NOP' },
                 line: 3
             },
             {
                 type: 'LINE',
                 label: undefined,
-                instruction: { operator: 'jmp', lhs: 'label' },
+                instruction: { operator: 'JMP', lhs: 'LABEL' },
                 line: 5
             }])
         })

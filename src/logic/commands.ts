@@ -4,19 +4,20 @@ import { AbsArgument } from "./command_args";
 
 export default interface ICommand {
   node: BasicExecutionNode;
+  line: Number;
 
   executeRead(): void;
   executeWrite(): void;
 
   execute(): void;
 
-  getLabel(): string;
+  getLabels(): string[];
 }
 
 export abstract class AbsCommand implements ICommand {
-  constructor(readonly node: BasicExecutionNode, readonly label: string) {}
+  constructor(readonly node: BasicExecutionNode, readonly labels: string[], readonly line: Number) { }
 
-  executeRead() {}
+  executeRead() { }
 
   executeWrite() {
     this.node.incIndex();
@@ -27,8 +28,8 @@ export abstract class AbsCommand implements ICommand {
     this.executeWrite();
   }
 
-  getLabel(): string {
-    return this.label;
+  getLabels(): string[] {
+    return this.labels;
   }
 }
 
@@ -45,11 +46,12 @@ export class NopCommand extends AbsCommand {
 export class MovCommand extends AbsCommand {
   constructor(
     node: BasicExecutionNode,
-    label: string,
+    labels: string[],
     readonly src: AbsArgument,
-    private dst: AbsArgument
+    private dst: AbsArgument,
+    readonly line: Number
   ) {
-    super(node, label);
+    super(node, labels, line);
   }
 
   private valRead: number = null;
@@ -110,10 +112,11 @@ export class SavCommand extends AbsCommand {
 export class AddCommand extends AbsCommand {
   constructor(
     node: BasicExecutionNode,
-    label: string,
-    readonly src: AbsArgument
+    labels: string[],
+    readonly src: AbsArgument,
+    readonly line: Number
   ) {
-    super(node, label);
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -136,10 +139,11 @@ export class AddCommand extends AbsCommand {
 export class SubCommand extends AbsCommand {
   constructor(
     node: BasicExecutionNode,
-    label: string,
-    readonly src: AbsArgument
+    labels: string[],
+    readonly src: AbsArgument,
+    readonly line: Number
   ) {
-    super(node, label);
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -172,8 +176,8 @@ export class NegCommand extends AbsCommand {
 }
 
 export class JmpCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: string) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -188,8 +192,8 @@ export class JmpCommand extends AbsCommand {
 }
 
 export class JezCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: string) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -205,8 +209,8 @@ export class JezCommand extends AbsCommand {
 }
 
 export class JnzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: string) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -222,8 +226,8 @@ export class JnzCommand extends AbsCommand {
 }
 
 export class JgzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: string) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -238,8 +242,8 @@ export class JgzCommand extends AbsCommand {
   }
 }
 export class JlzCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: string) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: string, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
@@ -254,8 +258,8 @@ export class JlzCommand extends AbsCommand {
   }
 }
 export class JroCommand extends AbsCommand {
-  constructor(node: BasicExecutionNode, label: string, readonly src: number) {
-    super(node, label);
+  constructor(node: BasicExecutionNode, labels: string[], readonly src: number, readonly line: Number) {
+    super(node, labels, line);
   }
 
   executeRead() {
