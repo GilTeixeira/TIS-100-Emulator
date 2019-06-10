@@ -1,7 +1,7 @@
 
 
 import { BasicExecutionNode } from "./node";
-import { Directions, Instructions } from "./macros";
+import { Instructions } from "./macros";
 import {
     AbsCommand, NopCommand, SwpCommand,
     SavCommand, NegCommand, SubCommand,
@@ -10,15 +10,16 @@ import {
     JlzCommand, JroCommand
 } from "./commands";
 import { toAst } from "./parser/visitor";
-import { AbsArgument, ArgumentValue, ArgumentACC, ArgumentDir } from "./command_args";
-import { switchCase } from "@babel/types";,
+import { ArgumentValue, ArgumentACC, ArgumentDir } from "./command_args";
 
-export class Parser {
+
+export class CommandParser {
     constructor(private program: String, readonly node: BasicExecutionNode) { }
 
     parseProgram(): AbsCommand[] {
         let program: AbsCommand[] = []
         const programLines = toAst(this.program)
+        
 
         let nextInstructionLabels: String[] = []
 
@@ -33,6 +34,7 @@ export class Parser {
     }
 
     parseLine(line, nextInstructionLabels): AbsCommand {
+        let lhs, rhs
         if (line.label)
             nextInstructionLabels.push(line.label)
 
@@ -40,10 +42,10 @@ export class Parser {
             return
 
         if (line.instruction.lhs)
-            let lhs = this.parseArg(line.instruction.lhs)
+            lhs = this.parseArg(line.instruction.lhs)
 
-        if (line.instruction.lhs)
-            let rhs = this.parseArg(line.instruction.rhs)
+        if (line.instruction.rhs)
+            rhs = this.parseArg(line.instruction.rhs)
 
         switch (line.instruction.operator) {
             case Instructions.NOP:

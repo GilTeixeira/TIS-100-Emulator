@@ -9,7 +9,7 @@ export abstract class NodeFactory {
     for (let i = 0; i < y; i++) {
       nodeGrid[i] = [];
       for (let j = 0; j < x; j++) {
-        nodeGrid[i][j] = new BasicExecutionNode(null);
+        nodeGrid[i][j] = new BasicExecutionNode("");
       }
     }
 

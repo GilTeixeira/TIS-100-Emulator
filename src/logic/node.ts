@@ -1,6 +1,7 @@
 import { Port, NullPort } from "./port";
 import { Directions, Status } from "./macros";
 import Command from "./commands";
+import { CommandParser } from "./command_parser";
 
 export class BasicExecutionNode {
   private static _id: number = 0;
@@ -9,12 +10,11 @@ export class BasicExecutionNode {
   private BAK: number = 0;
   private dstPorts: Port[];
   private srcPorts: Port[];
-  private commands: Command[];
+  private commands: Command[];  
   private index: number = 0;
-
   public state: Status = Status.IDLE;
 
-  constructor(instructions: string[]) {
+  constructor(instructions: string) {
     this.id = BasicExecutionNode._id++;
 
     this.dstPorts = [
@@ -50,6 +50,10 @@ export class BasicExecutionNode {
 
   setBAK(vl: number) {
     this.BAK = vl;
+  }
+
+  public getCommands(): Command[] {
+    return this.commands;
   }
 
   findIndex(label: string): number {
@@ -111,5 +115,7 @@ export class BasicExecutionNode {
     this.commands[this.index].executeWrite();
   }
 
-  parseInstructions(instructions: string[]): void {}
+  parseInstructions(instructions: string): void {
+    this.commands = new CommandParser(instructions, this).parseProgram()
+  }
 }

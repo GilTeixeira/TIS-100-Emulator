@@ -11,6 +11,9 @@ class AstVisitor extends BaseVisitor {
     }
 
     program(ctx) {
+        if (!ctx.line)
+            return []
+            
         const lines = ctx.line.map(line => this.visit(line))
         return lines
     }
