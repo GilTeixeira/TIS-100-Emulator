@@ -1,7 +1,7 @@
 
 
 import { BasicExecutionNode } from "./node";
-import { Instructions } from "./macros";
+import { Instructions, Directions } from "./macros";
 import {
     AbsCommand, NopCommand, SwpCommand,
     SavCommand, NegCommand, SubCommand,
@@ -19,7 +19,7 @@ export class CommandParser {
     parseProgram(): AbsCommand[] {
         let program: AbsCommand[] = []
         const programLines = toAst(this.program)
-        
+
 
         let nextInstructionLabels: String[] = []
 
@@ -81,7 +81,8 @@ export class CommandParser {
     parseArg(arg: any): any {
         switch (arg.type) {
             case 'Port':
-                return new ArgumentDir(this.node, arg.value)
+                let direction: any = Directions[arg.value]
+                return new ArgumentDir(this.node, direction)
             case 'Register':                                        // TODO: It can be NIL
                 return new ArgumentACC(this.node)
             case 'Integer':

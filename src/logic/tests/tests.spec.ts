@@ -78,16 +78,18 @@ describe('Test NodeFactory', () => {
       neg            \n\
       sub 5          \n\
       add acc        \n\
-      mov acc right  \n\
+      mov 5 right  \n\
       jmp label1     \n\
       jez label1     \n\
       jnz label1     \n\
       jgz label1     \n\
       jlz label1     \n\
       jro label1     "
-    let node = new BasicExecutionNode(program);
+    let nodeTopLeft = grid[0][0];
+    let nodeTopRight = grid[0][1];
 
-    let commands = node.getCommands()
+    nodeTopLeft.parseInstructions(program)
+    let commands = nodeTopLeft.getCommands()
 
     expect(commands[0] instanceof NopCommand).to.be.true;
     expect(commands[1] instanceof SwpCommand).to.be.true;
@@ -102,6 +104,8 @@ describe('Test NodeFactory', () => {
     expect(commands[10] instanceof JgzCommand).to.be.true;
     expect(commands[11] instanceof JlzCommand).to.be.true;
     expect(commands[12] instanceof JroCommand).to.be.true;
+    commands[6].execute()
+    expect(nodeTopRight.readNumber(Directions.LEFT)).to.equal(5);
   });
 
 });
