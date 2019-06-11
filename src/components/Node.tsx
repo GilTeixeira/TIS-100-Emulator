@@ -6,6 +6,7 @@ import { Directions } from "../logic/macros";
 import { NullPort } from "../logic/port";
 
 import NodeDisplay from "./NodeDisplay";
+import NodeInputs from "./NodeInputs";
 import Port from "./Port";
 
 type NodeProps = {
@@ -16,28 +17,20 @@ class Node extends React.Component<NodeProps> {
   render() {
     const ports = this.props.node.getSrcPorts().reduce((ports, port, i) => {
       if (!(port instanceof NullPort))
-        ports.push(<Port key={`port${i}`} direction={Directions[i]} value={port.getValue()} />);
+        ports.push(
+          <Port
+            key={`port${i}`}
+            direction={Directions[i]}
+            value={port.getValue()}
+          />
+        );
 
       return ports;
     }, []);
 
     return (
       <div className="node" key={this.props.node.getID()}>
-        <div className="editor">
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-          <input maxLength={16} type="text" />
-        </div>
+        <NodeInputs />
         <div className="info">
           <NodeDisplay tooltip="ACC" value={this.props.node.getACC()} />
           <NodeDisplay

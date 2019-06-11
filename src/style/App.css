@@ -3,12 +3,48 @@ body {
   background-color: black;
 }
 
+.app {
+  display: flex;
+  flex-direction: row;
+}
+
+/* ControlPanel */
+
+.controlPanel {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+}
+
+.buttons button {
+  height: 72px;
+  width: 72px;
+  border: 4px double #ffffff;
+  color: #ffffff;
+  background-color: #000000;
+  margin: 8px;
+  padding: 0;
+  box-shadow: 4px 4px 0px 0px rgba(255,255,255,0.8);
+  font-family: "PxPlus IBM MDA";
+  text-transform: uppercase;
+}
+
+
 /* NodeGrid */
 
 .grid {
   display: flex;
   flex-direction: column;
+  width: 100%;
   margin: 48px 0 0 48px;
+  align-items: center;
+  justify-content: center;
 }
 
 .gridRow {
@@ -42,6 +78,8 @@ body {
   color: white;
   font-family: "PxPlus IBM MDA";
   font-size: 16px;
+  height: 14px;
+  padding: 1px 0;
   border: none;
   text-transform: uppercase;
 }
