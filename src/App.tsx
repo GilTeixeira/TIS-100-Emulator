@@ -1,19 +1,52 @@
 import React from "react";
 import "./style/App.css";
+
 import { Tis100 } from "./logic/tis_100";
+
 import NodeGrid from "./components/NodeGrid";
 import ControlPanel from "./components/ControlPanel";
+import { Status } from "./logic/macros";
 
-class App extends React.Component {
+type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+
+type AppState = {
+  tis_100: Tis100;
+};
+
+type AppProps = {};
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tis_100: new Tis100(2, 2)
+    };
+  }
+
   render() {
-    const tis_100 = new Tis100(3, 2);
-
     return (
-    <div className="app">
-      <ControlPanel />
-      <NodeGrid grid={tis_100.getGrid()} />
-    </div>
+      <div className="app">
+        <ControlPanel
+          onPlayClicked={this.testClick.bind(this)}
+          onStepClicked={this.step.bind(this)}
+        />
+        <NodeGrid grid={this.state.tis_100.getGrid()} />
+      </div>
     );
+  }
+
+  refreshRender() {
+    this.setState(state => state);
+  }
+
+  testClick() {
+    this.state.tis_100.getGrid()[0][0].setState(Status.READ);
+    this.setState(state => state);
+  }
+  
+  step() {
+    this.state.tis_100.step();
+    this.refreshRender();
   }
 }
 

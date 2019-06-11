@@ -14,6 +14,8 @@ type NodeProps = {
 };
 
 class Node extends React.Component<NodeProps> {
+  private nodeInputs: NodeInputs;
+
   render() {
     const ports = this.props.node.getSrcPorts().reduce((ports, port, i) => {
       if (!(port instanceof NullPort))
@@ -30,19 +32,24 @@ class Node extends React.Component<NodeProps> {
 
     return (
       <div className="node" key={this.props.node.getID()}>
-        <NodeInputs />
+        <NodeInputs
+          instructions={this.props.node.getInstructions()}
+          updateInstructions={this.updateInstructions.bind(this)}
+          ref={ref => (this.nodeInputs = ref)}
+        />
         <div className="info">
           <NodeDisplay tooltip="ACC" value={this.props.node.getACC()} />
-          <NodeDisplay
-            tooltip="BAK"
-            value={"<" + this.props.node.getBAK() + ">"}
-          />
+          <NodeDisplay tooltip="BAK" value={`<${this.props.node.getBAK()}>`} />
           <NodeDisplay tooltip="LAST" value="N/A" />
           <NodeDisplay tooltip="MODE" value={this.props.node.getState()} />
         </div>
         {ports}
       </div>
     );
+  }
+
+  updateInstructions() {
+    this.props.node.setInstructions(this.nodeInputs.getValue());
   }
 }
 

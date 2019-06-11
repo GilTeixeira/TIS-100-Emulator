@@ -10,11 +10,12 @@ export class BasicExecutionNode {
   private BAK: number = 0;
   private dstPorts: Port[];
   private srcPorts: Port[];
-  private commands: Command[];  
+  private commands: Command[] = [];
+  private instructions: string;
   private index: number = 0;
   public state: Status = Status.IDLE;
 
-  constructor(instructions: string) {
+  constructor() {
     this.id = BasicExecutionNode._id++;
 
     this.dstPorts = [
@@ -29,7 +30,6 @@ export class BasicExecutionNode {
       new NullPort(),
       new NullPort()
     ];
-    this.parseInstructions(instructions);
   }
 
   getNumberLines(): number {
@@ -80,7 +80,7 @@ export class BasicExecutionNode {
   }
 
   incIndex() {
-    this.index++;
+    if (++this.index >= this.commands.length) this.index = 0;
   }
 
   setState(newState: Status) {
@@ -99,6 +99,15 @@ export class BasicExecutionNode {
     this.srcPorts[direction] = srcPort;
   }
 
+  setInstructions(instructions: string) {
+    this.instructions = instructions;
+    this.parseInstructions();
+  }
+
+  getInstructions(): string {
+    return this.instructions;
+  }
+
   pushNumber(direction: Directions, n: number): void {
     this.dstPorts[direction].setValue(n);
   }
@@ -112,14 +121,24 @@ export class BasicExecutionNode {
   }
 
   executeRead() {
+    if (this.commands.length === 0) return;
+
     this.commands[this.index].executeRead();
   }
 
   executeWrite() {
+    if (this.commands.length === 0) return;
+
     this.commands[this.index].executeWrite();
   }
 
-  parseInstructions(instructions: string): void {
-    this.commands = new CommandParser(instructions, this).parseProgram()
+  parseInstructions(): void {
+    this.commands = new CommandParser(this.instructions, this).parseProgram();
+    this.resetNode();
+  }
+
+  resetNode(): void {
+    this.index = 0;
+    this.state = Status.IDLE;
   }
 }
