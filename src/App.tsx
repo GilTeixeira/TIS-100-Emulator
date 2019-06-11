@@ -40,8 +40,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   testClick() {
-    this.state.tis_100.getGrid()[0][0].setState(Status.READ);
-    this.setState(state => state);
+    this.refreshRender();
   }
   
   step() {

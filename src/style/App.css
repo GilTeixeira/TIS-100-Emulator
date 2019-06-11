@@ -69,19 +69,25 @@ body {
 
 .node .editor {
   flex: 1;
-  padding: 4px 8px;
+  padding: 4px 0;
 }
 
 .node .editor input {
   width: 100%;
+  box-sizing: border-box;
   background-color: black;
-  color: white;
+  color: #ffffff;
   font-family: "PxPlus IBM MDA";
   font-size: 16px;
   height: 14px;
-  padding: 1px 0;
+  padding: 1px 8px;
   border: none;
   text-transform: uppercase;
+}
+
+.node .editor input.selected {
+  background-color: #ffffff;
+  color: #000000;
 }
 
 *:focus {

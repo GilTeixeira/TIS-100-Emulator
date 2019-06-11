@@ -12,6 +12,7 @@ export default interface ICommand {
   execute(): void;
 
   getLabels(): string[];
+  getLine(): number;
 }
 
 export abstract class AbsCommand implements ICommand {
@@ -34,6 +35,10 @@ export abstract class AbsCommand implements ICommand {
 
   getLabels(): string[] {
     return this.labels;
+  }
+
+  getLine() : number {
+    return this.line;
   }
 }
 

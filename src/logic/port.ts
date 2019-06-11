@@ -2,7 +2,7 @@ export class Port {
   private buffer: number[];
 
   constructor() {
-    this.buffer = Array<number>();
+    this.buffer = [];
   }
 
   popValue(): number {
@@ -23,6 +23,10 @@ export class Port {
 
   getValue(): number {
     return this.buffer[0];
+  }
+  
+  reset(): void {
+    this.buffer = [];
   }
 }
 

@@ -33,6 +33,7 @@ class Node extends React.Component<NodeProps> {
     return (
       <div className="node" key={this.props.node.getID()}>
         <NodeInputs
+          selectedInstruction={this.props.node.getInstructionIndex()}
           instructions={this.props.node.getInstructions()}
           updateInstructions={this.updateInstructions.bind(this)}
           ref={ref => (this.nodeInputs = ref)}

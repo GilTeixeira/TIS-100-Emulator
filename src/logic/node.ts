@@ -75,6 +75,13 @@ export class BasicExecutionNode {
     return this.index;
   }
 
+  getInstructionIndex(): number {
+    if (this.commands.length === 0)
+      return null;
+
+    return this.commands[this.index].getLine();
+  }
+
   getID(): number {
     return this.id;
   }
@@ -117,7 +124,7 @@ export class BasicExecutionNode {
   }
 
   hasValue(direction: Directions): boolean {
-    return this.srcPorts[direction].hasValue();
+    return this.dstPorts[direction].hasValue();
   }
 
   executeRead() {
@@ -134,11 +141,13 @@ export class BasicExecutionNode {
 
   parseInstructions(): void {
     this.commands = new CommandParser(this.instructions, this).parseProgram();
-    this.resetNode();
   }
 
   resetNode(): void {
     this.index = 0;
     this.state = Status.IDLE;
+    this.ACC = 0;
+    this.BAK = 0;
+    this.dstPorts.forEach(port => port.reset());
   }
 }

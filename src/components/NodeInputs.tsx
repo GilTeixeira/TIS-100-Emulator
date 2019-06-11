@@ -4,15 +4,15 @@ import "../style/App.css";
 type NodeInputsProps = {
   instructions: string;
   updateInstructions: () => void;
+  selectedInstruction: number;
 };
 
 class NodeInputs extends React.Component<NodeInputsProps> {
   private inputs: HTMLInputElement[] = [];
 
-  private parseInstructions() : string[] {
-    if(this.props.instructions == null)
-      return [];
-    
+  private parseInstructions(): string[] {
+    if (this.props.instructions == null) return [];
+
     return this.props.instructions.split("\n");
   }
 
@@ -22,29 +22,28 @@ class NodeInputs extends React.Component<NodeInputsProps> {
         if (event.key === "ArrowUp")
           this.inputs[i - 1 >= 0 ? i - 1 : this.inputs.length - 1].focus();
 
-        if (event.key === "ArrowDown")
+        if (event.key === "ArrowDown" || event.key === "Enter")
           this.inputs[i + 1 < this.inputs.length ? i + 1 : 0].focus();
       });
 
       input.addEventListener("focusout", _ => {
         this.props.updateInstructions();
-      })
+      });
     });
-
   }
 
   componentDidUpdate() {
-    let instructions : string[] = this.parseInstructions()
-    
+    let instructions: string[] = this.parseInstructions();
+
     this.inputs.forEach((input, i) => {
       input.value = this.props.instructions == null ? "" : instructions[i];
     });
   }
 
-  getValue() : string {
+  getValue(): string {
     return this.inputs.reduce((string, input) => {
-      return string += input.value.toUpperCase() + "\n";
-    }, "")
+      return (string += input.value.toUpperCase() + "\n");
+    }, "");
   }
 
   render() {
@@ -52,10 +51,16 @@ class NodeInputs extends React.Component<NodeInputsProps> {
     for (let i: number = 0; i < 13; i++)
       inputs.push(
         <input
+          className={
+            this.props.selectedInstruction === null ||
+            this.props.selectedInstruction !== i
+              ? ""
+              : "selected"
+          }
           key={i}
           maxLength={16}
           type="text"
-          ref={ref => this.inputs[i] = ref}
+          ref={ref => (this.inputs[i] = ref)}
         />
       );
 
