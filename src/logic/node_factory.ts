@@ -94,14 +94,14 @@ export class NodeFactory {
 
   private buildSources(): void {
     this.sources = []
-    for (let i = 0; i < this.sources.length; i++) {
+    for (let i = 0; i < this.sourcesPos.length; i++) {
       this.sources.push(new Source())
     }
   }
 
   private buildSinks(): void {
     this.sinks = []
-    for (let i = 0; i < this.sinks.length; i++) {
+    for (let i = 0; i < this.sinksPos.length; i++) {
       this.sinks.push(new Sink())
     }
   }

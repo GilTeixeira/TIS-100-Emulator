@@ -175,7 +175,7 @@ export class Sink extends Node {
   private srcPort: Port
   private outputs: number[] = []
 
-  getOutputs(inputs: number[]) {
+  getOutputs() {
     return this.outputs
   }
 
@@ -202,10 +202,14 @@ export class Source extends Node {
     this.inputs = inputs
   }
 
+  getInputs(): number[] {
+    return this.inputs
+  }
+
   execute() {
     this.totalCycles++
 
-    if (!this.dstPort.hasValue()) this.inputs.push(this.inputs.shift())
+    if (!this.dstPort.hasValue()) this.dstPort.setValue(this.inputs.shift())
     else this.idleCycles++
   }
 }

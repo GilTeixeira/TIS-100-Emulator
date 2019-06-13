@@ -21,6 +21,7 @@ import { ArgumentDir, ArgumentValue, ArgumentACC } from "../command_args"
 
 import "mocha"
 import { BasicExecutionNode } from "../node"
+import { Tis100 } from "../tis_100"
 
 describe("Test NodeFactory", () => {
   let nodeFac = new NodeFactory(2, 2, [], [])
@@ -108,5 +109,32 @@ describe("Test NodeFactory", () => {
     expect(commands[12] instanceof JroCommand).to.be.true
     commands[6].execute()
     expect(nodeTopRight.readNumber(Directions.LEFT)).to.equal(5)
+  })
+
+  it("Test Sink and Sources", () => {
+    let tis100 = new Tis100(1, 1, [0], [0])
+    let nodeGrid = tis100.getGrid()
+    let node = nodeGrid[0][0]
+    let sinks = tis100.getSinks()
+    let sources = tis100.getSources()
+
+    sources[0].setInputs([1, 2, 3, 4])
+
+    node.setInstructions("mov Up Down")
+
+    tis100.step()
+
+    expect(sources[0].getInputs()).to.eql([2, 3, 4])
+    expect(sinks[0].getOutputs()).to.eql([1])
+
+    tis100.step()
+    tis100.step()
+    tis100.step()
+    tis100.step()
+    tis100.step()
+    tis100.step()
+
+    expect(sources[0].getInputs()).to.eql([])
+    expect(sinks[0].getOutputs()).to.eql([1, 2, 3, 4])
   })
 })
