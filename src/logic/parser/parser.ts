@@ -1,5 +1,5 @@
-import { CstParser } from "chevrotain";
-import { lex, tokenVocabulary } from "./lexer";
+import { CstParser } from "chevrotain"
+import { lex, tokenVocabulary } from "./lexer"
 
 //nullOperators
 const Nop = tokenVocabulary.Nop
@@ -42,133 +42,128 @@ const Identifier = tokenVocabulary.Identifier
 const Colon = tokenVocabulary.Colon
 const Newline = tokenVocabulary.Newline
 
-
 class Parser extends CstParser {
+  constructor(tokenVocabulary, config?) {
+    super(tokenVocabulary, config)
+    this.performSelfAnalysis()
+  }
 
-    constructor(tokenVocabulary, config?) {
-        super(tokenVocabulary, config)
-        this.performSelfAnalysis()
-    }
-
-    public program = this.RULE("program", () => {
-        this.AT_LEAST_ONE_SEP({
-            SEP: Newline,
-            DEF: () => {
-                this.OPTION(function () {
-                    this.SUBRULE(this.line)
-                })
-            }
+  public program = this.RULE("program", () => {
+    this.AT_LEAST_ONE_SEP({
+      SEP: Newline,
+      DEF: () => {
+        this.OPTION(function() {
+          this.SUBRULE(this.line)
         })
+      }
     })
+  })
 
-    private line = this.RULE("line", () => {
-        this.OR([
-            {
-                ALT: () => {
-                    this.SUBRULE(this.label)
-                    this.SUBRULE(this.instruction)
-                }
-            },
-            { ALT: () => this.SUBRULE2(this.instruction) },
-            { ALT: () => this.SUBRULE2(this.label) }
+  private line = this.RULE("line", () => {
+    this.OR([
+      {
+        ALT: () => {
+          this.SUBRULE(this.label)
+          this.SUBRULE(this.instruction)
+        }
+      },
+      { ALT: () => this.SUBRULE2(this.instruction) },
+      { ALT: () => this.SUBRULE2(this.label) }
+    ])
+  })
 
-        ])
-    })
+  private label = this.RULE("label", () => {
+    this.CONSUME(Identifier)
+    this.CONSUME(Colon)
+  })
 
-    private label = this.RULE("label", () => {
-        this.CONSUME(Identifier)
-        this.CONSUME(Colon)
-    })
+  private instruction = this.RULE("instruction", () => {
+    this.OR([
+      { ALT: () => this.SUBRULE(this.nullOp) },
+      { ALT: () => this.SUBRULE(this.unaryOp) },
+      { ALT: () => this.SUBRULE(this.binaryOp) },
+      { ALT: () => this.SUBRULE(this.jumpOp) }
+    ])
+  })
 
-    private instruction = this.RULE("instruction", () => {
-        this.OR([
-            { ALT: () => this.SUBRULE(this.nullOp) },
-            { ALT: () => this.SUBRULE(this.unaryOp) },
-            { ALT: () => this.SUBRULE(this.binaryOp) },
-            { ALT: () => this.SUBRULE(this.jumpOp) }
-        ])
-    })
+  private nullOp = this.RULE("nullOp", () => {
+    this.OR([
+      { ALT: () => this.CONSUME(Nop) },
+      { ALT: () => this.CONSUME(Swp) },
+      { ALT: () => this.CONSUME(Sav) },
+      { ALT: () => this.CONSUME(Neg) }
+    ])
+  })
 
-    private nullOp = this.RULE("nullOp", () => {
-        this.OR([
-            { ALT: () => this.CONSUME(Nop) },
-            { ALT: () => this.CONSUME(Swp) },
-            { ALT: () => this.CONSUME(Sav) },
-            { ALT: () => this.CONSUME(Neg) }
-        ])
-    })
+  private unaryOp = this.RULE("unaryOp", () => {
+    this.OR([
+      { ALT: () => this.CONSUME(Sub) },
+      { ALT: () => this.CONSUME(Add) }
+    ])
+    this.SUBRULE(this.operand)
+  })
 
-    private unaryOp = this.RULE("unaryOp", () => {
-        this.OR([
-            { ALT: () => this.CONSUME(Sub) },
-            { ALT: () => this.CONSUME(Add) }
-        ])
-        this.SUBRULE(this.operand)
-    })
+  private binaryOp = this.RULE("binaryOp", () => {
+    this.CONSUME(Mov)
+    this.SUBRULE(this.operand, { LABEL: "lhs" })
+    this.SUBRULE2(this.operand, { LABEL: "rhs" })
+  })
 
-    private binaryOp = this.RULE("binaryOp", () => {
-        this.CONSUME(Mov)
-        this.SUBRULE(this.operand, { LABEL: "lhs" })
-        this.SUBRULE2(this.operand, { LABEL: "rhs" })
-    })
+  private jumpOp = this.RULE("jumpOp", () => {
+    this.SUBRULE(this.jumpOps)
+    this.CONSUME(Identifier)
+  })
 
-    private jumpOp = this.RULE("jumpOp", () => {
-        this.SUBRULE(this.jumpOps)
-        this.CONSUME(Identifier)
-    })
+  private jumpOps = this.RULE("jumpOps", () => {
+    this.OR([
+      { ALT: () => this.CONSUME(Jmp) },
+      { ALT: () => this.CONSUME(Jez) },
+      { ALT: () => this.CONSUME(Jnz) },
+      { ALT: () => this.CONSUME(Jgz) },
+      { ALT: () => this.CONSUME(Jlz) },
+      { ALT: () => this.CONSUME(Jro) }
+    ])
+  })
 
-    private jumpOps = this.RULE("jumpOps", () => {
-        this.OR([
-            { ALT: () => this.CONSUME(Jmp) },
-            { ALT: () => this.CONSUME(Jez) },
-            { ALT: () => this.CONSUME(Jnz) },
-            { ALT: () => this.CONSUME(Jgz) },
-            { ALT: () => this.CONSUME(Jlz) },
-            { ALT: () => this.CONSUME(Jro) }
-        ])
-    })
+  private operand = this.RULE("operand", () => {
+    this.OR([
+      { ALT: () => this.SUBRULE(this.port) },
+      { ALT: () => this.SUBRULE(this.register) },
+      { ALT: () => this.CONSUME(Integer) }
+    ])
+  })
 
-    private operand = this.RULE("operand", () => {
-        this.OR([
-            { ALT: () => this.SUBRULE(this.port) },
-            { ALT: () => this.SUBRULE(this.register) },
-            { ALT: () => this.CONSUME(Integer) }
-        ])
-    })
+  private port = this.RULE("port", () => {
+    this.OR([
+      { ALT: () => this.CONSUME(Left) },
+      { ALT: () => this.CONSUME(Right) },
+      { ALT: () => this.CONSUME(Up) },
+      { ALT: () => this.CONSUME(Down) },
+      { ALT: () => this.CONSUME(Any) },
+      { ALT: () => this.CONSUME(Last) }
+    ])
+  })
 
-    private port = this.RULE("port", () => {
-        this.OR([
-            { ALT: () => this.CONSUME(Left) },
-            { ALT: () => this.CONSUME(Right) },
-            { ALT: () => this.CONSUME(Up) },
-            { ALT: () => this.CONSUME(Down) },
-            { ALT: () => this.CONSUME(Any) },
-            { ALT: () => this.CONSUME(Last) }
-        ])
-    })
-
-    private register = this.RULE("register", () => {
-        this.OR([
-            { ALT: () => this.CONSUME(Nil) },
-            { ALT: () => this.CONSUME(Acc) }
-        ])
-    })
+  private register = this.RULE("register", () => {
+    this.OR([
+      { ALT: () => this.CONSUME(Nil) },
+      { ALT: () => this.CONSUME(Acc) }
+    ])
+  })
 }
 
 const parser = new Parser(tokenVocabulary, { outputCst: true })
 
 function parse(text) {
-    const lexingResult = lex(text)
+  const lexingResult = lex(text)
 
-    // "input" is a setter which will reset the parser's state.
-    parser.input = lexingResult.tokens
-    parser.program()
+  // "input" is a setter which will reset the parser's state.
+  parser.input = lexingResult.tokens
+  parser.program()
 
-    if (parser.errors.length > 0) {
-        throw new Error(parser.errors[0].message)
-    }
+  if (parser.errors.length > 0) {
+    throw new Error(parser.errors[0].message)
+  }
 }
 
-export {
-    parser, parse
-}
+export { parser, parse }

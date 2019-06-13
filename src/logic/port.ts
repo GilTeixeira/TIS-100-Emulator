@@ -1,38 +1,38 @@
 export class Port {
-  private buffer: number[];
+  private buffer: number[]
 
   constructor() {
-    this.buffer = [];
+    this.buffer = []
   }
 
   popValue(): number {
-    if (this.buffer.length === 0) return null;
+    if (this.buffer.length === 0) return null
 
-    return this.buffer.pop();
+    return this.buffer.pop()
   }
 
   setValue(n: number): void {
-    if (this.buffer.length > 0) throw Error("Can't write value!");
+    if (this.buffer.length > 0) throw Error("Can't write value!")
 
-    this.buffer.push(n);
+    this.buffer.push(n)
   }
 
   hasValue(): boolean {
-    return this.buffer.length > 0;
+    return this.buffer.length > 0
   }
 
   getValue(): number {
-    return this.buffer[0];
+    return this.buffer[0]
   }
-  
+
   reset(): void {
-    this.buffer = [];
+    this.buffer = []
   }
 }
 
 export class NullPort extends Port {
   popValue(): number {
-    return null;
+    return null
   }
 
   setValue(n: number): void {}

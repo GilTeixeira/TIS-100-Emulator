@@ -1,20 +1,20 @@
-import React from "react";
-import "../style/App.css";
+import React from "react"
+import "../style/App.css"
 
-import { BasicExecutionNode } from "../logic/node";
-import { Directions } from "../logic/macros";
-import { NullPort } from "../logic/port";
+import { BasicExecutionNode } from "../logic/node"
+import { Directions } from "../logic/macros"
+import { NullPort } from "../logic/port"
 
-import NodeDisplay from "./NodeDisplay";
-import NodeInputs from "./NodeInputs";
-import Port from "./Port";
+import NodeDisplay from "./NodeDisplay"
+import NodeInputs from "./NodeInputs"
+import Port from "./Port"
 
 type NodeProps = {
-  node: BasicExecutionNode;
-};
+  node: BasicExecutionNode
+}
 
 class Node extends React.Component<NodeProps> {
-  private nodeInputs: NodeInputs;
+  private nodeInputs: NodeInputs
 
   render() {
     const ports = this.props.node.getSrcPorts().reduce((ports, port, i) => {
@@ -25,10 +25,10 @@ class Node extends React.Component<NodeProps> {
             direction={Directions[i]}
             value={port.getValue()}
           />
-        );
+        )
 
-      return ports;
-    }, []);
+      return ports
+    }, [])
 
     return (
       <div className="node" key={this.props.node.getID()}>
@@ -46,12 +46,12 @@ class Node extends React.Component<NodeProps> {
         </div>
         {ports}
       </div>
-    );
+    )
   }
 
   updateInstructions() {
-    this.props.node.setInstructions(this.nodeInputs.getValue());
+    this.props.node.setInstructions(this.nodeInputs.getValue())
   }
 }
 
-export default Node;
+export default Node

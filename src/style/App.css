@@ -30,11 +30,10 @@ body {
   background-color: #000000;
   margin: 8px;
   padding: 0;
-  box-shadow: 4px 4px 0px 0px rgba(255,255,255,0.8);
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.8);
   font-family: "PxPlus IBM MDA";
   text-transform: uppercase;
 }
-
 
 /* NodeGrid */
 
@@ -51,7 +50,6 @@ body {
   display: flex;
   flex-direction: row;
 }
-
 
 /* Node */
 
@@ -140,7 +138,7 @@ body {
 }
 
 .port.UP .arrow {
-  transform: rotate(90deg)
+  transform: rotate(90deg);
 }
 
 .port.RIGHT {
@@ -150,7 +148,7 @@ body {
 }
 
 .port.port.RIGHT .arrow {
-  transform: rotate(180deg)
+  transform: rotate(180deg);
 }
 
 .port.LEFT {
@@ -165,5 +163,5 @@ body {
 }
 
 .port.DOWN .arrow {
-  transform: rotate(-90deg)
+  transform: rotate(-90deg);
 }
