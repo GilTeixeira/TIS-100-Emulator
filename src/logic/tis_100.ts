@@ -1,30 +1,43 @@
-import { NodeFactory } from "./node_factory";
-import { BasicExecutionNode } from "./node";
+import { NodeFactory } from "./node_factory"
+import { BasicExecutionNode, Source, Sink } from "./node"
 
 export class Tis100 {
-  private nodeGrid: BasicExecutionNode[][];
+  private nodeGrid: BasicExecutionNode[][]
+  private sources: Source[]
+  private sinks: Sink[]
 
-  constructor(private x: number, private y: number) {
-    this.nodeGrid = NodeFactory.getNodeGrid(x, y);
+  constructor(x: number, y: number, sourcesPos: number[], sinksPos: number[]) {
+    let nodeFactory = new NodeFactory(x, y, sourcesPos, sinksPos)
+    this.nodeGrid = nodeFactory.getNodeGrid()
+    this.sinks = nodeFactory.getSinks()
+    this.sources = nodeFactory.getSources()
   }
 
   run() {}
 
   step() {
-    this.nodeGrid.forEach(nodeRow => {
-      nodeRow.forEach(node => {
-        node.executeRead();
-      });
-    });
+    this.sources.forEach(source => {
+      source.execute()
+    })
+
+    this.sinks.forEach(sink => {
+      sink.execute()
+    })
 
     this.nodeGrid.forEach(nodeRow => {
       nodeRow.forEach(node => {
-        node.executeWrite();
-      });
-    });
+        node.executeRead()
+      })
+    })
+
+    this.nodeGrid.forEach(nodeRow => {
+      nodeRow.forEach(node => {
+        node.executeWrite()
+      })
+    })
   }
 
   getGrid(): BasicExecutionNode[][] {
-    return this.nodeGrid;
+    return this.nodeGrid
   }
 }
