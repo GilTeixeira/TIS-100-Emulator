@@ -6,8 +6,8 @@ import { CommandParser } from './command_parser'
 export abstract class Node {
   protected static _id: number = 0
   protected id: number
-  protected totalCycles: number
-  protected idleCycles: number
+  protected totalCycles: number = 0
+  protected idleCycles: number = 0
   protected state: Status = Status.IDLE
 
   constructor() {
@@ -22,9 +22,14 @@ export abstract class Node {
     return this.state
   }
 
+  getID(): number {
+    return this.id
+  }
+
   execute() {}
 
   getIdleness() {
+    if(this.totalCycles === 0) return this.totalCycles
     return this.idleCycles / this.totalCycles
   }
 }
@@ -104,10 +109,6 @@ export class BasicExecutionNode extends Node {
     return this.commands[this.index].getLine()
   }
 
-  getID(): number {
-    return this.id
-  }
-
   incIndex() {
     if (++this.index >= this.commands.length) this.index = 0
   }
@@ -174,6 +175,12 @@ export class BasicExecutionNode extends Node {
 export class Sink extends Node {
   private srcPort: Port
   private outputs: number[] = []
+  protected static _id: number = 0
+
+  constructor() {
+    super()
+    this.id = Sink._id++
+  }
 
   getOutputs() {
     return this.outputs
@@ -195,6 +202,12 @@ export class Sink extends Node {
 }
 
 export class NullSink extends Sink {
+  constructor() {
+    super()
+    Sink._id--
+    this.id = null
+  }
+
   getOutputs() {
     return null
   }
@@ -203,9 +216,19 @@ export class NullSink extends Sink {
 export class Source extends Node {
   private dstPort: Port
   private inputs: number[]
+  protected static _id: number = 0
+
+  constructor() {
+    super()
+    this.id = Source._id++
+  }
 
   setDstPort(dstPort: Port) {
     this.dstPort = dstPort
+  }
+
+  getDstPort(): Port {
+    return this.dstPort
   }
 
   setInputs(inputs: number[]) {
@@ -221,5 +244,17 @@ export class Source extends Node {
 
     if (!this.dstPort.hasValue()) this.dstPort.setValue(this.inputs.shift())
     else this.idleCycles++
+  }
+}
+
+export class NullSource extends Source {
+  constructor() {
+    super()
+    Source._id--
+    this.id = null
+  }
+
+  getInputs() {
+    return null
   }
 }

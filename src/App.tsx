@@ -19,7 +19,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props)
 
     this.state = {
-      tis_100: new Tis100(2, 2, [0], [0])
+      tis_100: new Tis100(3, 2, [0,1], [0,2])
     }
   }
 
@@ -30,7 +30,11 @@ class App extends React.Component<AppProps, AppState> {
           onPlayClicked={this.testClick.bind(this)}
           onStepClicked={this.step.bind(this)}
         />
-        <NodeGrid grid={this.state.tis_100.getGrid()} sinks={this.state.tis_100.getSinks()}/>
+        <NodeGrid
+          grid={this.state.tis_100.getGrid()}
+          sinks={this.state.tis_100.getSinks()}
+          sources={this.state.tis_100.getSources()}
+        />
       </div>
     )
   }

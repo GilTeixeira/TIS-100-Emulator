@@ -1,4 +1,4 @@
-import { BasicExecutionNode, Source, Sink, NullSink } from './node'
+import { BasicExecutionNode, Source, Sink, NullSink, NullSource } from './node'
 import { Port } from './port'
 import { Directions } from './macros'
 
@@ -54,7 +54,7 @@ export class NodeFactory {
     if (posY === 0 && this.sourcesPos.includes(posX)) {
       let upPort = new Port()
       this.nodeGrid[posY][posX].setSrcPort(Directions.UP, upPort)
-      this.sources[this.sourcesPos.indexOf(posX)].setDstPort(upPort)
+      this.sources[posX].setDstPort(upPort)
     }
   }
 
@@ -94,18 +94,17 @@ export class NodeFactory {
 
   private buildSources(): void {
     this.sources = []
-    for (let i = 0; i < this.sourcesPos.length; i++) {
-      this.sources.push(new Source())
+    for (let i = 0; i < this.sizeX; i++) {
+      if (this.sourcesPos.includes(i)) this.sources.push(new Source())
+      else this.sources.push(new NullSource())
     }
   }
 
   private buildSinks(): void {
     this.sinks = []
     for (let i = 0; i < this.sizeX; i++) {
-      if(this.sinksPos.includes(i))
-        this.sinks.push(new Sink())
-      else
-        this.sinks.push(new NullSink())
+      if (this.sinksPos.includes(i)) this.sinks.push(new Sink())
+      else this.sinks.push(new NullSink())
     }
   }
 

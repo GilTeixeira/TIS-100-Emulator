@@ -51,41 +51,54 @@ body {
   flex-direction: row;
 }
 
-/* Sinks */
+/* Sinks n Sources */
 
-.sinks {
+.sinks, .sources {
   display: flex;
   flex-direction: row;
+}
+
+.sinks {
   margin-top: -48px;
 }
 
-.nullSink {
+.nullSink, .nullSource {
   width: 228px;
   margin-right: 48px;
 }
 
-.sink {
+.sink, .source {
   color: #ffffff;
-  z-index: 10;
+  background-color: #000000;
+  z-index: 11;
   height: 48px;
   width: 228px;
   margin-right: 48px;
+  padding-left: 56px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
-.sink .arrow {
+.sink .arrow, .source .arrow {
   height: 18px;
   width: 18px;
   transform: rotate(90deg);
 }
 
-.sink .value {
+.sink .value, .source .value {
   height: 18px;
 }
 
+.source .info, .sink .info {
+  margin-left: 16px;
+}
+
+.source .info p{
+  text-align: center;
+}
 
 /* Node */
 
