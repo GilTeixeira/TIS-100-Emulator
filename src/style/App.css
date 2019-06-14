@@ -51,6 +51,55 @@ body {
   flex-direction: row;
 }
 
+/* Sinks n Sources */
+
+.sinks, .sources {
+  display: flex;
+  flex-direction: row;
+}
+
+.sinks {
+  margin-top: -48px;
+}
+
+.nullSink, .nullSource {
+  width: 228px;
+  margin-right: 48px;
+}
+
+.sink, .source {
+  color: #ffffff;
+  background-color: #000000;
+  z-index: 11;
+  height: 48px;
+  width: 228px;
+  margin-right: 48px;
+  padding-left: 56px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sink .arrow, .source .arrow {
+  height: 18px;
+  width: 18px;
+  transform: rotate(90deg);
+}
+
+.sink .value, .source .value {
+  height: 18px;
+}
+
+.source .info, .sink .info {
+  margin-left: 16px;
+}
+
+.source .info p{
+  text-align: center;
+}
+
 /* Node */
 
 .node {
@@ -85,6 +134,11 @@ body {
 
 .node .editor input.selected {
   background-color: #ffffff;
+  color: #000000;
+}
+
+.node .editor input.blocked {
+  background-color: #ffffff8c;
   color: #000000;
 }
 
