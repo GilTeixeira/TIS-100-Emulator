@@ -1,10 +1,14 @@
 import React from 'react'
 import '../style/App.css'
+
 import Node from './Node'
-import { BasicExecutionNode } from '../logic/node'
+import Sink from './Sink'
+
+import { BasicExecutionNode, Sink as SinkLogic, NullSink } from '../logic/node'
 
 type NodeGridProps = {
   grid: BasicExecutionNode[][]
+  sinks: SinkLogic[]
 }
 
 class NodeGrid extends React.Component<NodeGridProps> {
@@ -20,7 +24,20 @@ class NodeGrid extends React.Component<NodeGridProps> {
         </div>
       )
     })
-    return <div className='grid'>{grid}</div>
+
+    const sinks = this.props.sinks.map((sink, i) => {
+      console.log(i)
+      if (sink instanceof NullSink)
+        return <div key={`sink${i}`} className='nullSink' />
+      else return <Sink key={`sink${i}`} value={sink.getSrcPort().getValue()} />
+    })
+
+    return (
+      <div className='grid'>
+        {grid}
+        <div className='sinks'>{sinks}</div>
+      </div>
+    )
   }
 }
 

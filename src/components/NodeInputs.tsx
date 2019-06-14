@@ -1,10 +1,13 @@
 import React from 'react'
 import '../style/App.css'
 
+import { BasicExecutionNode } from '../logic/node'
+import { Status } from '../logic/macros'
+
 type NodeInputsProps = {
   instructions: string
   updateInstructions: () => void
-  selectedInstruction: number
+  node: BasicExecutionNode
 }
 
 class NodeInputs extends React.Component<NodeInputsProps> {
@@ -19,11 +22,33 @@ class NodeInputs extends React.Component<NodeInputsProps> {
   componentDidMount() {
     this.inputs.forEach((input, i) => {
       input.addEventListener('keydown', event => {
-        if (event.key === 'ArrowUp')
-          this.inputs[i - 1 >= 0 ? i - 1 : this.inputs.length - 1].focus()
+        let prevSelection = input.selectionStart
 
-        if (event.key === 'ArrowDown' || event.key === 'Enter')
+        if (event.key === 'ArrowUp') {
+          this.inputs[
+            i - 1 >= 0 ? i - 1 : this.inputs.length - 1
+          ].setSelectionRange(prevSelection, prevSelection)
+          this.inputs[i - 1 >= 0 ? i - 1 : this.inputs.length - 1].focus()
+        }
+
+        if (event.key === 'ArrowDown') {
+          this.inputs[i + 1 < this.inputs.length ? i + 1 : 0].setSelectionRange(
+            prevSelection,
+            prevSelection
+          )
           this.inputs[i + 1 < this.inputs.length ? i + 1 : 0].focus()
+        }
+
+        if (event.key === 'Enter' && i < this.inputs.length - 1) {
+          for (let j: number = this.inputs.length - 1; j > i + 1; j--)
+            this.inputs[j].value = this.inputs[j - 1].value
+
+          this.inputs[i + 1].value = input.value.slice(prevSelection)
+          input.value = input.value.slice(0, prevSelection)
+
+          this.inputs[i + 1].focus()
+          this.inputs[i + 1].setSelectionRange(prevSelection, prevSelection)
+        }
       })
 
       input.addEventListener('focusout', _ => {
@@ -52,9 +77,11 @@ class NodeInputs extends React.Component<NodeInputsProps> {
       inputs.push(
         <input
           className={
-            this.props.selectedInstruction === null ||
-            this.props.selectedInstruction !== i
+            this.props.node.getInstructionIndex() === null ||
+            this.props.node.getInstructionIndex() !== i
               ? ''
+              : this.props.node.getState() === Status.WRTE || this.props.node.getState() === Status.READ
+              ? 'blocked'
               : 'selected'
           }
           key={i}

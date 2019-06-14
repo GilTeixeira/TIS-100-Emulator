@@ -51,6 +51,42 @@ body {
   flex-direction: row;
 }
 
+/* Sinks */
+
+.sinks {
+  display: flex;
+  flex-direction: row;
+  margin-top: -48px;
+}
+
+.nullSink {
+  width: 228px;
+  margin-right: 48px;
+}
+
+.sink {
+  color: #ffffff;
+  z-index: 10;
+  height: 48px;
+  width: 228px;
+  margin-right: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.sink .arrow {
+  height: 18px;
+  width: 18px;
+  transform: rotate(90deg);
+}
+
+.sink .value {
+  height: 18px;
+}
+
+
 /* Node */
 
 .node {
@@ -85,6 +121,11 @@ body {
 
 .node .editor input.selected {
   background-color: #ffffff;
+  color: #000000;
+}
+
+.node .editor input.blocked {
+  background-color: #ffffff8c;
   color: #000000;
 }
 

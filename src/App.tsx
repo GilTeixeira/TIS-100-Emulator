@@ -17,8 +17,9 @@ type AppProps = {}
 class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props)
+
     this.state = {
-      tis_100: new Tis100(2, 2, [], [])
+      tis_100: new Tis100(2, 2, [0], [0])
     }
   }
 
@@ -29,7 +30,7 @@ class App extends React.Component<AppProps, AppState> {
           onPlayClicked={this.testClick.bind(this)}
           onStepClicked={this.step.bind(this)}
         />
-        <NodeGrid grid={this.state.tis_100.getGrid()} />
+        <NodeGrid grid={this.state.tis_100.getGrid()} sinks={this.state.tis_100.getSinks()}/>
       </div>
     )
   }

@@ -183,10 +183,20 @@ export class Sink extends Node {
     this.srcPort = srcPort
   }
 
+  getSrcPort(): Port {
+    return this.srcPort
+  }
+
   execute() {
     this.totalCycles++
     if (this.srcPort.hasValue()) this.outputs.push(this.srcPort.popValue())
     else this.idleCycles++
+  }
+}
+
+export class NullSink extends Sink {
+  getOutputs() {
+    return null
   }
 }
 
