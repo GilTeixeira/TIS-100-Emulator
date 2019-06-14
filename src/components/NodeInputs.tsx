@@ -46,6 +46,10 @@ class NodeInputs extends React.Component<NodeInputsProps> {
     }, '')
   }
 
+  getValueIndex(index: number): string {
+    return this.inputs[index].value.toUpperCase()
+  }
+
   render() {
     let inputs: JSX.Element[] = []
     for (let i: number = 0; i < 13; i++)

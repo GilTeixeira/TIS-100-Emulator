@@ -50,7 +50,18 @@ class Node extends React.Component<NodeProps> {
   }
 
   updateInstructions() {
-    this.props.node.setInstructions(this.nodeInputs.getValue())
+    try {
+      this.props.node.setInstructions(this.nodeInputs.getValue())
+    } catch (e) {
+      const line = e.token.startLine - 1
+      const startColumn = e.token.startColumn - 1
+      const endColumn = e.token.endColumn
+      const token = this.nodeInputs
+        .getValueIndex(line)
+        .substring(startColumn, endColumn)
+      const error = `Unexpected Token "${token}"`
+      console.log(error)
+    }
   }
 }
 

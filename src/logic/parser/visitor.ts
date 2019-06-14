@@ -135,7 +135,7 @@ function toAst(inputText) {
   // Automatic CST created when parsing
   const cst = parser.program()
   if (parser.errors.length > 0) {
-    throw Error(parser.errors[0].message)
+    throw parser.errors[0]
   }
 
   // Visit
