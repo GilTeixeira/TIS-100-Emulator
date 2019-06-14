@@ -1,11 +1,10 @@
-import React from "react"
-import "./style/App.css"
+import React from 'react'
+import './style/App.css'
 
-import { Tis100 } from "./logic/tis_100"
+import { Tis100 } from './logic/tis_100'
 
-import NodeGrid from "./components/NodeGrid"
-import ControlPanel from "./components/ControlPanel"
-import { Status } from "./logic/macros"
+import NodeGrid from './components/NodeGrid'
+import ControlPanel from './components/ControlPanel'
 
 type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 
@@ -25,7 +24,7 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
     return (
-      <div className="app">
+      <div className='app'>
         <ControlPanel
           onPlayClicked={this.testClick.bind(this)}
           onStepClicked={this.step.bind(this)}

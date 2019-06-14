@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -133,7 +133,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -143,9 +143,9 @@ table {
 }
 
 @font-face {
-  font-family: "PxPlus IBM MDA";
-  src: url("./fonts/PxPlus_IBM_MDA.woff2") format("woff2"),
-    url("./fonts/PxPlus_IBM_MDA.woff") format("woff");
+  font-family: 'PxPlus IBM MDA';
+  src: url('./fonts/PxPlus_IBM_MDA.woff2') format('woff2'),
+    url('./fonts/PxPlus_IBM_MDA.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

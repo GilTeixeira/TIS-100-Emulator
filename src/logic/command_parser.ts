@@ -1,5 +1,5 @@
-import { BasicExecutionNode } from "./node"
-import { Instructions, Directions } from "./macros"
+import { BasicExecutionNode } from './node'
+import { Instructions, Directions } from './macros'
 import {
   AbsCommand,
   NopCommand,
@@ -15,9 +15,9 @@ import {
   JgzCommand,
   JlzCommand,
   JroCommand
-} from "./commands"
-import { toAst } from "./parser/visitor"
-import { ArgumentValue, ArgumentACC, ArgumentDir } from "./command_args"
+} from './commands'
+import { toAst } from './parser/visitor'
+import { ArgumentValue, ArgumentACC, ArgumentDir } from './command_args'
 
 export class CommandParser {
   constructor(private program: String, readonly node: BasicExecutionNode) {}
@@ -84,12 +84,12 @@ export class CommandParser {
   }
   parseArg(arg: any): any {
     switch (arg.type) {
-      case "Port":
+      case 'Port':
         let direction: any = Directions[arg.value]
         return new ArgumentDir(this.node, direction)
-      case "Register": // TODO: It can be NIL
+      case 'Register': // TODO: It can be NIL
         return new ArgumentACC(this.node)
-      case "Integer":
+      case 'Integer':
         return new ArgumentValue(arg.value)
       default:
         return arg

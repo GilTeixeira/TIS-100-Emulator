@@ -1,5 +1,5 @@
 body {
-  font-family: "PxPlus IBM MDA";
+  font-family: 'PxPlus IBM MDA';
   background-color: black;
 }
 
@@ -31,7 +31,7 @@ body {
   margin: 8px;
   padding: 0;
   box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.8);
-  font-family: "PxPlus IBM MDA";
+  font-family: 'PxPlus IBM MDA';
   text-transform: uppercase;
 }
 
@@ -75,7 +75,7 @@ body {
   box-sizing: border-box;
   background-color: black;
   color: #ffffff;
-  font-family: "PxPlus IBM MDA";
+  font-family: 'PxPlus IBM MDA';
   font-size: 16px;
   height: 14px;
   padding: 1px 8px;

@@ -1,6 +1,6 @@
-import { BasicExecutionNode } from "./node"
-import { Status } from "./macros"
-import { AbsArgument } from "./command_args"
+import { BasicExecutionNode } from './node'
+import { Status } from './macros'
+import { AbsArgument } from './command_args'
 
 export default interface ICommand {
   node: BasicExecutionNode

@@ -1,6 +1,6 @@
-import { BasicExecutionNode, Source, Sink } from "./node"
-import { Port } from "./port"
-import { Directions } from "./macros"
+import { BasicExecutionNode, Source, Sink } from './node'
+import { Port } from './port'
+import { Directions } from './macros'
 
 export class NodeFactory {
   private nodeGrid: BasicExecutionNode[][]

@@ -1,5 +1,5 @@
-import { BasicExecutionNode } from "./node"
-import { Directions } from "./macros"
+import { BasicExecutionNode } from './node'
+import { Directions } from './macros'
 
 export abstract class AbsArgument {
   isNumber: boolean = false

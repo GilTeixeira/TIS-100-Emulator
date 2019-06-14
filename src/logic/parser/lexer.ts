@@ -1,4 +1,4 @@
-import { Lexer as ChevLexer, createToken } from "chevrotain"
+import { Lexer as ChevLexer, createToken } from 'chevrotain'
 
 // the vocabulary will be exported and used in the Parser definition.
 let tokenVocabulary: any = {}
@@ -6,165 +6,165 @@ let tokenVocabulary: any = {}
 // createToken is used to create a TokenType
 // The Lexer's output will contain an array of token Objects created by metadata
 const Identifier = createToken({
-  name: "Identifier",
+  name: 'Identifier',
   pattern: /[a-zA-Z]\w*/
 })
 
 const Integer = createToken({
-  name: "Integer",
+  name: 'Integer',
   pattern: /(0|-?([1-9][0-9][0-9]|[1-9][0-9]|[1-9]))/
 })
 
 const Acc = createToken({
-  name: "Acc",
+  name: 'Acc',
   pattern: /Acc/i,
   longer_alt: Identifier
 })
 
 const Nil = createToken({
-  name: "Nil",
+  name: 'Nil',
   pattern: /Nil/i,
   longer_alt: Identifier
 })
 
 const Left = createToken({
-  name: "Left",
+  name: 'Left',
   pattern: /Left/i,
   longer_alt: Identifier
 })
 
 const Right = createToken({
-  name: "Right",
+  name: 'Right',
   pattern: /Right/i,
   longer_alt: Identifier
 })
 
 const Up = createToken({
-  name: "Up",
+  name: 'Up',
   pattern: /Up/i,
   longer_alt: Identifier
 })
 
 const Down = createToken({
-  name: "Down",
+  name: 'Down',
   pattern: /Down/i,
   longer_alt: Identifier
 })
 
 const Any = createToken({
-  name: "Any",
+  name: 'Any',
   pattern: /Any/i,
   longer_alt: Identifier
 })
 
 const Last = createToken({
-  name: "Last",
+  name: 'Last',
   pattern: /Last/i,
   longer_alt: Identifier
 })
 
 const Comment = createToken({
-  name: "Comment",
+  name: 'Comment',
   pattern: /#.*/,
   group: ChevLexer.SKIPPED
 })
 
 const Nop = createToken({
-  name: "Nop",
+  name: 'Nop',
   pattern: /Nop/i,
   longer_alt: Identifier
 })
 
 const Mov = createToken({
-  name: "Mov",
+  name: 'Mov',
   pattern: /Mov/i,
   longer_alt: Identifier
 })
 
 const Swp = createToken({
-  name: "Swp",
+  name: 'Swp',
   pattern: /Swp/i,
   longer_alt: Identifier
 })
 
 const Sav = createToken({
-  name: "Sav",
+  name: 'Sav',
   pattern: /Sav/i,
   longer_alt: Identifier
 })
 
 const Add = createToken({
-  name: "Add",
+  name: 'Add',
   pattern: /Add/i,
   longer_alt: Identifier
 })
 
 const Sub = createToken({
-  name: "Sub",
+  name: 'Sub',
   pattern: /Sub/i,
   longer_alt: Identifier
 })
 
 const Neg = createToken({
-  name: "Neg",
+  name: 'Neg',
   pattern: /Neg/i,
   longer_alt: Identifier
 })
 
 const Jmp = createToken({
-  name: "Jmp",
+  name: 'Jmp',
   pattern: /Jmp/i,
   longer_alt: Identifier
 })
 
 const Jez = createToken({
-  name: "Jez",
+  name: 'Jez',
   pattern: /Jez/i,
   longer_alt: Identifier
 })
 
 const Jnz = createToken({
-  name: "Jnz",
+  name: 'Jnz',
   pattern: /Jnz/i,
   longer_alt: Identifier
 })
 
 const Jgz = createToken({
-  name: "Jgz",
+  name: 'Jgz',
   pattern: /Jgz/i,
   longer_alt: Identifier
 })
 
 const Jlz = createToken({
-  name: "Jlz",
+  name: 'Jlz',
   pattern: /Jlz/i,
   longer_alt: Identifier
 })
 
 const Jro = createToken({
-  name: "Jro",
+  name: 'Jro',
   pattern: /Jro/i,
   longer_alt: Identifier
 })
 
 const Comma = createToken({
-  name: "Comma",
+  name: 'Comma',
   pattern: /,/,
   group: ChevLexer.SKIPPED
 })
 
 const Colon = createToken({
-  name: "Colon",
+  name: 'Colon',
   pattern: /:/
 })
 
 const Newline = createToken({
-  name: "Newline",
+  name: 'Newline',
   pattern: /(\r\n|\r|\n)/
 })
 
 const WhiteSpace = createToken({
-  name: "WhiteSpace",
+  name: 'WhiteSpace',
   pattern: /[ \t]/,
   group: ChevLexer.SKIPPED
 })
@@ -211,7 +211,7 @@ function lex(inputText) {
   const lexingResult = lexer.tokenize(inputText)
 
   if (lexingResult.errors.length > 0) {
-    throw Error("Lexing errors detected")
+    throw Error('Lexing errors detected')
   }
   return lexingResult
 }

@@ -12,7 +12,7 @@ export class Port {
   }
 
   setValue(n: number): void {
-    if (this.buffer.length > 0) throw Error("Can't write value!")
+    if (this.buffer.length > 0) throw Error('Can\'t write value!')
 
     this.buffer.push(n)
   }

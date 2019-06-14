@@ -1,5 +1,5 @@
-import { lex } from "./lexer"
-import { parser } from "./parser"
+import { lex } from './lexer'
+import { parser } from './parser'
 
 // The base visitor class can be accessed via the a parser instance.
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
@@ -25,7 +25,7 @@ class AstVisitor extends BaseVisitor {
     delete instruction.line
 
     return {
-      type: "LINE",
+      type: 'LINE',
       label: label.name,
       instruction: instruction,
       line: line
@@ -92,7 +92,7 @@ class AstVisitor extends BaseVisitor {
   operand(ctx) {
     if (ctx.Integer)
       return {
-        type: "Integer",
+        type: 'Integer',
         value: parseInt(ctx.Integer[0].image)
       }
     else if (ctx.register) return this.visit(ctx.register)
@@ -104,7 +104,7 @@ class AstVisitor extends BaseVisitor {
       ctx.Left || ctx.Right || ctx.Up || ctx.Down || ctx.Any || ctx.Last
 
     return {
-      type: "Port",
+      type: 'Port',
       value: port[0].image.toUpperCase()
     }
   }
@@ -113,7 +113,7 @@ class AstVisitor extends BaseVisitor {
     const reg = ctx.Nil || ctx.Acc
 
     return {
-      type: "Register",
+      type: 'Register',
       value: reg[0].image.toUpperCase()
     }
   }

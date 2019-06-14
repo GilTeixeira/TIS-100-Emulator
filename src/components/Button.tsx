@@ -1,5 +1,5 @@
-import React from "react"
-import "../style/App.css"
+import React from 'react'
+import '../style/App.css'
 
 type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 

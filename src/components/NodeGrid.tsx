@@ -1,7 +1,7 @@
-import React from "react"
-import "../style/App.css"
-import Node from "./Node"
-import { BasicExecutionNode } from "../logic/node"
+import React from 'react'
+import '../style/App.css'
+import Node from './Node'
+import { BasicExecutionNode } from '../logic/node'
 
 type NodeGridProps = {
   grid: BasicExecutionNode[][]
@@ -15,12 +15,12 @@ class NodeGrid extends React.Component<NodeGridProps> {
       ))
 
       return (
-        <div key={`nodeGrid${i}`} className="gridRow">
+        <div key={`nodeGrid${i}`} className='gridRow'>
           {nodes}
         </div>
       )
     })
-    return <div className="grid">{grid}</div>
+    return <div className='grid'>{grid}</div>
   }
 }
 

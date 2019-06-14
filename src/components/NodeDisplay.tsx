@@ -1,5 +1,5 @@
-import React from "react"
-import "../style/App.css"
+import React from 'react'
+import '../style/App.css'
 
 type NodeDisplayProps = {
   tooltip: string
@@ -9,9 +9,9 @@ type NodeDisplayProps = {
 class NodeDisplay extends React.Component<NodeDisplayProps> {
   render() {
     return (
-      <div className="display">
-        <p className="tooltip">{this.props.tooltip}</p>
-        <p className="value">{this.props.value}</p>
+      <div className='display'>
+        <p className='tooltip'>{this.props.tooltip}</p>
+        <p className='value'>{this.props.value}</p>
       </div>
     )
   }

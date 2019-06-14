@@ -1,7 +1,7 @@
-import { Port, NullPort } from "./port"
-import { Directions, Status } from "./macros"
-import Command from "./commands"
-import { CommandParser } from "./command_parser"
+import { Port, NullPort } from './port'
+import { Directions, Status } from './macros'
+import Command from './commands'
+import { CommandParser } from './command_parser'
 
 export abstract class Node {
   protected static _id: number = 0
@@ -87,7 +87,7 @@ export class BasicExecutionNode extends Node {
     for (var i = 0; i < this.commands.length; i++) {
       if (this.commands[i].getLabels().includes(label)) return i
     }
-    throw new Error("Label not found.")
+    throw new Error('Label not found.')
   }
 
   setIndex(i: number) {

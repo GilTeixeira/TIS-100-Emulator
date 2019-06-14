@@ -1,5 +1,5 @@
-import { NodeFactory } from "./node_factory"
-import { BasicExecutionNode, Source, Sink } from "./node"
+import { NodeFactory } from './node_factory'
+import { BasicExecutionNode, Source, Sink } from './node'
 
 export class Tis100 {
   private nodeGrid: BasicExecutionNode[][]

@@ -1,5 +1,5 @@
-import { CstParser } from "chevrotain"
-import { lex, tokenVocabulary } from "./lexer"
+import { CstParser } from 'chevrotain'
+import { lex, tokenVocabulary } from './lexer'
 
 //nullOperators
 const Nop = tokenVocabulary.Nop
@@ -48,7 +48,7 @@ class Parser extends CstParser {
     this.performSelfAnalysis()
   }
 
-  public program = this.RULE("program", () => {
+  public program = this.RULE('program', () => {
     this.AT_LEAST_ONE_SEP({
       SEP: Newline,
       DEF: () => {
@@ -59,7 +59,7 @@ class Parser extends CstParser {
     })
   })
 
-  private line = this.RULE("line", () => {
+  private line = this.RULE('line', () => {
     this.OR([
       {
         ALT: () => {
@@ -72,12 +72,12 @@ class Parser extends CstParser {
     ])
   })
 
-  private label = this.RULE("label", () => {
+  private label = this.RULE('label', () => {
     this.CONSUME(Identifier)
     this.CONSUME(Colon)
   })
 
-  private instruction = this.RULE("instruction", () => {
+  private instruction = this.RULE('instruction', () => {
     this.OR([
       { ALT: () => this.SUBRULE(this.nullOp) },
       { ALT: () => this.SUBRULE(this.unaryOp) },
@@ -86,7 +86,7 @@ class Parser extends CstParser {
     ])
   })
 
-  private nullOp = this.RULE("nullOp", () => {
+  private nullOp = this.RULE('nullOp', () => {
     this.OR([
       { ALT: () => this.CONSUME(Nop) },
       { ALT: () => this.CONSUME(Swp) },
@@ -95,7 +95,7 @@ class Parser extends CstParser {
     ])
   })
 
-  private unaryOp = this.RULE("unaryOp", () => {
+  private unaryOp = this.RULE('unaryOp', () => {
     this.OR([
       { ALT: () => this.CONSUME(Sub) },
       { ALT: () => this.CONSUME(Add) }
@@ -103,18 +103,18 @@ class Parser extends CstParser {
     this.SUBRULE(this.operand)
   })
 
-  private binaryOp = this.RULE("binaryOp", () => {
+  private binaryOp = this.RULE('binaryOp', () => {
     this.CONSUME(Mov)
-    this.SUBRULE(this.operand, { LABEL: "lhs" })
-    this.SUBRULE2(this.operand, { LABEL: "rhs" })
+    this.SUBRULE(this.operand, { LABEL: 'lhs' })
+    this.SUBRULE2(this.operand, { LABEL: 'rhs' })
   })
 
-  private jumpOp = this.RULE("jumpOp", () => {
+  private jumpOp = this.RULE('jumpOp', () => {
     this.SUBRULE(this.jumpOps)
     this.CONSUME(Identifier)
   })
 
-  private jumpOps = this.RULE("jumpOps", () => {
+  private jumpOps = this.RULE('jumpOps', () => {
     this.OR([
       { ALT: () => this.CONSUME(Jmp) },
       { ALT: () => this.CONSUME(Jez) },
@@ -125,7 +125,7 @@ class Parser extends CstParser {
     ])
   })
 
-  private operand = this.RULE("operand", () => {
+  private operand = this.RULE('operand', () => {
     this.OR([
       { ALT: () => this.SUBRULE(this.port) },
       { ALT: () => this.SUBRULE(this.register) },
@@ -133,7 +133,7 @@ class Parser extends CstParser {
     ])
   })
 
-  private port = this.RULE("port", () => {
+  private port = this.RULE('port', () => {
     this.OR([
       { ALT: () => this.CONSUME(Left) },
       { ALT: () => this.CONSUME(Right) },
@@ -144,7 +144,7 @@ class Parser extends CstParser {
     ])
   })
 
-  private register = this.RULE("register", () => {
+  private register = this.RULE('register', () => {
     this.OR([
       { ALT: () => this.CONSUME(Nil) },
       { ALT: () => this.CONSUME(Acc) }

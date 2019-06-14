@@ -1,7 +1,7 @@
-import { expect } from "chai"
+import { expect } from 'chai'
 
-import { NodeFactory } from "../node_factory"
-import { Directions, Status } from "../macros"
+import { NodeFactory } from '../node_factory'
+import { Directions, Status } from '../macros'
 import {
   NopCommand,
   SwpCommand,
@@ -16,18 +16,18 @@ import {
   JgzCommand,
   JlzCommand,
   JroCommand
-} from "../commands"
-import { ArgumentDir, ArgumentValue, ArgumentACC } from "../command_args"
+} from '../commands'
+import { ArgumentDir, ArgumentValue, ArgumentACC } from '../command_args'
 
-import "mocha"
-import { BasicExecutionNode } from "../node"
-import { Tis100 } from "../tis_100"
+import 'mocha'
+import { BasicExecutionNode } from '../node'
+import { Tis100 } from '../tis_100'
 
-describe("Test NodeFactory", () => {
+describe('Test NodeFactory', () => {
   let nodeFac = new NodeFactory(2, 2, [], [])
   let grid = nodeFac.getNodeGrid()
 
-  it("Test Ports", () => {
+  it('Test Ports', () => {
     grid[0][0].pushNumber(Directions.RIGHT, 5)
     expect(grid[0][1].readNumber(Directions.LEFT)).to.equal(5)
     expect(grid[0][1].readNumber(Directions.LEFT)).to.equal(null)
@@ -39,13 +39,13 @@ describe("Test NodeFactory", () => {
     expect(grid[0][0].readNumber(Directions.RIGHT)).to.equal(15)
   })
 
-  it("Test Commands", () => {
+  it('Test Commands', () => {
     let nodeTopLeft = grid[0][0]
     let nodeTopRight = grid[0][1]
 
     let cmd = new MovCommand(
       nodeTopLeft,
-      ["testCommands"],
+      ['testCommands'],
       new ArgumentValue(6),
       new ArgumentDir(nodeTopLeft, Directions.RIGHT),
       1
@@ -57,7 +57,7 @@ describe("Test NodeFactory", () => {
 
     cmd = new MovCommand(
       nodeTopRight,
-      ["testCommands"],
+      ['testCommands'],
       new ArgumentDir(nodeTopRight, Directions.LEFT),
       new ArgumentACC(nodeTopRight),
       2
@@ -70,9 +70,9 @@ describe("Test NodeFactory", () => {
     expect(nodeTopRight.getACC()).to.equal(6)
   })
 
-  it("Test Command Parser", () => {
+  it('Test Command Parser', () => {
     let program =
-      "nop           \n\
+      'nop           \n\
       label1:        \n\
       label2: swp    \n\
       sav            \n\
@@ -85,7 +85,7 @@ describe("Test NodeFactory", () => {
       jnz label1     \n\
       jgz label1     \n\
       jlz label1     \n\
-      jro label1     "
+      jro label1     '
     let nodeTopLeft = grid[0][0]
     let nodeTopRight = grid[0][1]
     nodeTopLeft.resetNode()
@@ -111,7 +111,7 @@ describe("Test NodeFactory", () => {
     expect(nodeTopRight.readNumber(Directions.LEFT)).to.equal(5)
   })
 
-  it("Test Sink and Sources", () => {
+  it('Test Sink and Sources', () => {
     let tis100 = new Tis100(1, 1, [0], [0])
     let nodeGrid = tis100.getGrid()
     let node = nodeGrid[0][0]
@@ -120,7 +120,7 @@ describe("Test NodeFactory", () => {
 
     sources[0].setInputs([1, 2, 3, 4])
 
-    node.setInstructions("mov Up Down")
+    node.setInstructions('mov Up Down')
 
     tis100.step()
 
