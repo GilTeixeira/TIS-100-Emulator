@@ -7,21 +7,33 @@ import { level1 } from './logic/level'
 import NodeGrid from './components/NodeGrid'
 import ControlPanel from './components/ControlPanel'
 
-type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+enum State {
+  IDLE,
+  RUN,
+  FAST
+}
 
 type AppState = {
   tis_100: Tis100
+  state: State
 }
 
 type AppProps = {}
 
 class App extends React.Component<AppProps, AppState> {
+  private interval
+
   constructor(props) {
     super(props)
 
     this.state = {
-      tis_100: new Tis100(level1)
+      tis_100: new Tis100(level1),
+      state: State.IDLE
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   render() {
@@ -49,19 +61,46 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   stop() {
-    console.log("stop")
+    if (this.state.state !== State.IDLE) {
+      this.setState(state => ({ ...state, state: State.IDLE }))
+      clearInterval(this.interval)
+    }
+
     this.state.tis_100.stop()
     this.refreshRender()
   }
 
   step() {
+    if (this.state.state !== State.IDLE) {
+      this.setState(state => ({ ...state, state: State.IDLE }))
+      clearInterval(this.interval)
+    }
+
     this.state.tis_100.step()
     this.refreshRender()
   }
 
-  run() {}
+  run() {
+    if (this.state.state !== State.RUN) {
+      clearInterval(this.interval)
+      this.interval = setInterval(() => {
+        this.state.tis_100.step()
+        this.refreshRender()
+      }, 500)
+      this.setState(state => ({ ...state, state: State.RUN }))
+    }
+  }
 
-  fast() {}
+  fast() {
+    if (this.state.state !== State.FAST) {
+      clearInterval(this.interval)
+      this.interval = setInterval(() => {
+        this.state.tis_100.step()
+        this.refreshRender()
+      }, 100)
+      this.setState(state => ({ ...state, state: State.FAST }))
+    }
+  }
 }
 
 export default App

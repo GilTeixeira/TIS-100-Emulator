@@ -41,6 +41,10 @@ export class Tis100 {
       source.execute()
     })
 
+    this.sinks.forEach(sink => {
+      sink.execute()
+    })
+
     this.nodeGrid.forEach(nodeRow => {
       nodeRow.forEach(node => {
         node.executeRead()
@@ -51,10 +55,6 @@ export class Tis100 {
       nodeRow.forEach(node => {
         node.executeWrite()
       })
-    })
-
-    this.sinks.forEach(sink => {
-      sink.execute()
     })
 
     if (this.state === Tis100State.IDLE) this.state = Tis100State.RUNNING

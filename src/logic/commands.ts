@@ -64,7 +64,6 @@ export class MovCommand extends AbsCommand {
   }
 
   private valRead: number = null
-  private state: NodeState
 
   executeRead() {
     if (this.node.getState() === NodeState.WRTE) return
@@ -128,19 +127,23 @@ export class AddCommand extends AbsCommand {
     super(node, labels, line)
   }
 
+  private valRead: number = null
+
   executeRead() {
-    let readValue: number = this.src.readValue()
-    if (readValue == null) {
+    this.valRead = this.src.readValue()
+    if (this.valRead == null) {
       this.node.setState(NodeState.READ)
       return
     }
 
-    this.node.setACC(this.node.getACC() + readValue)
+    this.node.setACC(this.node.getACC() + this.valRead)
 
     super.executeRead()
   }
 
   executeWrite() {
+    if (this.valRead === null) return
+
     super.executeWrite()
   }
 }
@@ -155,19 +158,23 @@ export class SubCommand extends AbsCommand {
     super(node, labels, line)
   }
 
+  private valRead: number = null
+
   executeRead() {
-    let readValue: number = this.src.readValue()
-    if (readValue == null) {
+    this.valRead = this.src.readValue()
+    if (this.valRead == null) {
       this.node.setState(NodeState.READ)
       return
     }
 
-    this.node.setACC(this.node.getACC() - readValue)
+    this.node.setACC(this.node.getACC() - this.valRead)
 
     super.executeRead()
   }
 
   executeWrite() {
+    if (this.valRead === null) return
+
     super.executeWrite()
   }
 }

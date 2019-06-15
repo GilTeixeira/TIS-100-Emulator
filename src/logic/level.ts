@@ -16,8 +16,8 @@ export let level1: level = {
   description: 'Multiply all the numbers by 2',
   x: 3,
   y: 2,
-  sources: [0, 2],
-  sinks: [1],
+  sources: [0],
+  sinks: [0],
   transform: (sourceValues: number[][]) =>
     sourceValues.map(source => source.map(value => value * 2))
 }

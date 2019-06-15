@@ -25,7 +25,7 @@ export enum NodeState {
   IDLE = 'IDLE',
   RUN = 'RUN',
   READ = 'READ',
-  WRTE = 'WRITE'
+  WRTE = 'WRTE'
 }
 
 export enum Instructions {
