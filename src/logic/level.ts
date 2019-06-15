@@ -1,3 +1,4 @@
+// the transform function recieves an array of numbers per source and returns an array of numbers per sink
 export type transform = (sourceValues: number[][]) => number[][]
 
 export type level = {
@@ -13,9 +14,9 @@ export type level = {
 export let level1: level = {
   title: 'Start',
   description: 'Multiply all the numbers by 2',
-  x: 2,
+  x: 3,
   y: 2,
-  sources: [0],
+  sources: [0, 2],
   sinks: [1],
   transform: (sourceValues: number[][]) =>
     sourceValues.map(source => source.map(value => value * 2))

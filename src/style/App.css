@@ -48,8 +48,9 @@ body {
   padding: 16px;
 }
 
-.levelInfo h1 {
-  font-size: 16px;
+.levelInfo h1,
+.sourceValues h2,
+.sinkValues h2 {
   text-transform: uppercase;
   margin-bottom: 8px;
 }
@@ -60,7 +61,61 @@ body {
   overflow: hidden;
   border: 4px double #ffffff;
   padding: 8px;
+  text-transform: uppercase;
   box-sizing: border-box;
+}
+
+/* Level Values */
+
+.levelValues {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding: 16px 8px;
+  color: #ffffff;
+}
+
+.sourceValues,
+.sinkValues {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0 8px;
+}
+
+.sinkValues > div {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.sourceValues .values,
+.sinkValues .values {
+  width: 48px;
+  height: 100%;
+  border: 4px double #ffffff;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+
+.sinkValues .objectiveValues {
+  width: 44px;
+  height: 100%;
+  border-top: 4px double #ffffff;
+  border-bottom: 4px double #ffffff;
+  border-left: 4px double #ffffff;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sourceValues .values p,
+.sinkValues .values p,
+.sinkValues .objectiveValues p {
+  text-align: center;
 }
 
 /* NodeGrid */
@@ -81,7 +136,8 @@ body {
 
 /* Sinks n Sources */
 
-.sinks, .sources {
+.sinks,
+.sources {
   display: flex;
   flex-direction: row;
 }
@@ -90,12 +146,14 @@ body {
   margin-top: -48px;
 }
 
-.nullSink, .nullSource {
+.nullSink,
+.nullSource {
   width: 228px;
   margin-right: 48px;
 }
 
-.sink, .source {
+.sink,
+.source {
   color: #ffffff;
   background-color: #000000;
   z-index: 11;
@@ -110,21 +168,24 @@ body {
   align-items: center;
 }
 
-.sink .arrow, .source .arrow {
+.sink .arrow,
+.source .arrow {
   height: 18px;
   width: 18px;
   transform: rotate(90deg);
 }
 
-.sink .value, .source .value {
+.sink .value,
+.source .value {
   height: 18px;
 }
 
-.source .info, .sink .info {
+.source .info,
+.sink .info {
   margin-left: 16px;
 }
 
-.source .info p{
+.source .info p {
   text-align: center;
 }
 
