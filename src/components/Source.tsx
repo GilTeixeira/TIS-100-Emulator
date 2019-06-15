@@ -19,7 +19,7 @@ class Source extends React.Component<SourceProps> {
         </p>
         <div className='info'>
           <p>{`IN.${this.props.source.getID()}`}</p>
-          <p>{`(IDLE ${this.props.source.getIdleness()}%)`}</p>
+          <p>{`(IDLE ${Math.round(this.props.source.getIdleness()*100)}%)`}</p>
         </div>
       </div>
     )

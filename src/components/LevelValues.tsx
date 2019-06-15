@@ -21,14 +21,14 @@ class LevelValues extends React.Component<LevelValueProps> {
         <SourceValues
           key={`source${i}`}
           name={`IN.${source.getID()}`}
-          values={source.getInputs()}
+          values={source.getOriginalInputs()}
         />
       ))
 
     const objectiveValues = this.props.transform(
       this.props.sources
         .filter(source => !(source instanceof NullSource))
-        .map(source => source.getInputs())
+        .map(source => source.getOriginalInputs())
     )
 
     const sinks = this.props.sinks

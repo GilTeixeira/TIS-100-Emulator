@@ -2,12 +2,13 @@ import React from 'react'
 import '../style/App.css'
 
 import { BasicExecutionNode } from '../logic/node'
-import { Status } from '../logic/macros'
+import { NodeState } from '../logic/macros'
 
 type NodeInputsProps = {
   instructions: string
   updateInstructions: () => void
   node: BasicExecutionNode
+  locked: boolean
 }
 
 class NodeInputs extends React.Component<NodeInputsProps> {
@@ -62,6 +63,7 @@ class NodeInputs extends React.Component<NodeInputsProps> {
 
     this.inputs.forEach((input, i) => {
       input.value = this.props.instructions == null ? '' : instructions[i]
+      input.disabled = this.props.locked
     })
   }
 
@@ -84,7 +86,7 @@ class NodeInputs extends React.Component<NodeInputsProps> {
             this.props.node.getInstructionIndex() === null ||
             this.props.node.getInstructionIndex() !== i
               ? ''
-              : this.props.node.getState() === Status.WRTE || this.props.node.getState() === Status.READ
+              : this.props.node.getState() === NodeState.WRTE || this.props.node.getState() === NodeState.READ
               ? 'blocked'
               : 'selected'
           }

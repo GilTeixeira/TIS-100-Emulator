@@ -1,22 +1,40 @@
 import { NodeFactory } from './node_factory'
 import { BasicExecutionNode, Source, Sink } from './node'
 import { level } from './level'
+import { Tis100State } from './macros'
 
 export class Tis100 {
   private level: level
   private nodeGrid: BasicExecutionNode[][]
   private sources: Source[]
   private sinks: Sink[]
+  private state: Tis100State = Tis100State.IDLE
 
   constructor(level: level) {
     this.level = level
-    let nodeFactory = new NodeFactory(level.x, level.y, level.sources, level.sinks)
+    let nodeFactory = new NodeFactory(
+      level.x,
+      level.y,
+      level.sources,
+      level.sinks
+    )
     this.nodeGrid = nodeFactory.getNodeGrid()
     this.sinks = nodeFactory.getSinks()
     this.sources = nodeFactory.getSources()
   }
 
-  run() {}
+  stop() {
+    if (this.state === Tis100State.RUNNING) {
+      this.state = Tis100State.IDLE
+      this.sources.forEach(source => source.reset())
+      this.nodeGrid.forEach(nodeRow => {
+        nodeRow.forEach(node => {
+          node.reset()
+        })
+      })
+      this.sinks.forEach(sink => sink.reset())
+    }
+  }
 
   step() {
     this.sources.forEach(source => {
@@ -38,6 +56,8 @@ export class Tis100 {
     this.sinks.forEach(sink => {
       sink.execute()
     })
+
+    if (this.state === Tis100State.IDLE) this.state = Tis100State.RUNNING
   }
 
   getGrid(): BasicExecutionNode[][] {
@@ -54,5 +74,9 @@ export class Tis100 {
 
   getLevel(): level {
     return this.level
+  }
+
+  getState(): Tis100State {
+    return this.state
   }
 }

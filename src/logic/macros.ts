@@ -16,7 +16,12 @@ export enum Directions {
 //   LAST = "LAST"
 // }
 
-export enum Status {
+export enum Tis100State {
+  IDLE,
+  RUNNING
+}
+
+export enum NodeState {
   IDLE = 'IDLE',
   RUN = 'RUN',
   READ = 'READ',

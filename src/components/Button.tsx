@@ -13,7 +13,7 @@ class Button extends React.Component<ButtonProps> {
   render() {
     return (
       <button onClick={this.props.onClick}>
-        <img src={this.props.image}/>
+        <img src={this.props.image} alt='Button' />
         {this.props.name}
       </button>
     )

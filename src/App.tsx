@@ -38,6 +38,7 @@ class App extends React.Component<AppProps, AppState> {
           grid={this.state.tis_100.getGrid()}
           sinks={this.state.tis_100.getSinks()}
           sources={this.state.tis_100.getSources()}
+          state={this.state.tis_100.getState()}
         />
       </div>
     )
@@ -48,6 +49,8 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   stop() {
+    console.log("stop")
+    this.state.tis_100.stop()
     this.refreshRender()
   }
 

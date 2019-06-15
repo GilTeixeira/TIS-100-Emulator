@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
 import { NodeFactory } from '../node_factory'
-import { Directions, Status } from '../macros'
+import { Directions, NodeState } from '../macros'
 import {
   NopCommand,
   SwpCommand,
@@ -51,9 +51,9 @@ describe('Test NodeFactory', () => {
       1
     )
 
-    expect(nodeTopLeft.getState()).to.equal(Status.IDLE)
+    expect(nodeTopLeft.getState()).to.equal(NodeState.IDLE)
     cmd.execute()
-    expect(nodeTopLeft.getState()).to.equal(Status.WRTE)
+    expect(nodeTopLeft.getState()).to.equal(NodeState.WRTE)
 
     cmd = new MovCommand(
       nodeTopRight,
@@ -64,9 +64,9 @@ describe('Test NodeFactory', () => {
     )
 
     cmd.execute()
-    expect(nodeTopLeft.getState()).to.equal(Status.WRTE) // why??
+    expect(nodeTopLeft.getState()).to.equal(NodeState.WRTE) // why??
 
-    expect(nodeTopRight.getState()).to.equal(Status.RUN)
+    expect(nodeTopRight.getState()).to.equal(NodeState.RUN)
     expect(nodeTopRight.getACC()).to.equal(6)
   })
 

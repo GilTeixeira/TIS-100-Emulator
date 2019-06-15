@@ -1,5 +1,5 @@
 import { BasicExecutionNode } from './node'
-import { Status } from './macros'
+import { NodeState } from './macros'
 import { AbsArgument } from './command_args'
 
 export default interface ICommand {
@@ -64,14 +64,14 @@ export class MovCommand extends AbsCommand {
   }
 
   private valRead: number = null
-  private state: Status
+  private state: NodeState
 
   executeRead() {
-    if (this.node.getState() === Status.WRTE) return
+    if (this.node.getState() === NodeState.WRTE) return
 
     this.valRead = this.src.readValue()
     if (this.valRead == null) {
-      this.node.setState(Status.READ)
+      this.node.setState(NodeState.READ)
     }
 
     super.executeRead()
@@ -80,12 +80,12 @@ export class MovCommand extends AbsCommand {
   executeWrite() {
     if (this.valRead == null) return
 
-    if (this.node.getState() !== Status.WRTE) this.dst.writeValue(this.valRead)
+    if (this.node.getState() !== NodeState.WRTE) this.dst.writeValue(this.valRead)
 
     if (this.dst.hasValue()) {
-      this.node.setState(Status.WRTE)
+      this.node.setState(NodeState.WRTE)
     } else {
-      this.node.setState(Status.RUN)
+      this.node.setState(NodeState.RUN)
       this.valRead = null
       super.executeWrite()
     }
@@ -131,7 +131,7 @@ export class AddCommand extends AbsCommand {
   executeRead() {
     let readValue: number = this.src.readValue()
     if (readValue == null) {
-      this.node.setState(Status.READ)
+      this.node.setState(NodeState.READ)
       return
     }
 
@@ -158,7 +158,7 @@ export class SubCommand extends AbsCommand {
   executeRead() {
     let readValue: number = this.src.readValue()
     if (readValue == null) {
-      this.node.setState(Status.READ)
+      this.node.setState(NodeState.READ)
       return
     }
 

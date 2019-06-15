@@ -11,6 +11,7 @@ import Port from './Port'
 
 type NodeProps = {
   node: BasicExecutionNode
+  locked: boolean
 }
 
 class Node extends React.Component<NodeProps> {
@@ -35,6 +36,7 @@ class Node extends React.Component<NodeProps> {
         <NodeInputs
           node={this.props.node}
           instructions={this.props.node.getInstructions()}
+          locked={this.props.locked}
           updateInstructions={this.updateInstructions.bind(this)}
           ref={ref => (this.nodeInputs = ref)}
         />

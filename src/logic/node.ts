@@ -1,5 +1,5 @@
 import { Port, NullPort } from './port'
-import { Directions, Status } from './macros'
+import { Directions, NodeState } from './macros'
 import Command from './commands'
 import { CommandParser } from './command_parser'
 
@@ -8,17 +8,17 @@ export abstract class Node {
   protected id: number
   protected totalCycles: number = 0
   protected idleCycles: number = 0
-  protected state: Status = Status.IDLE
+  protected state: NodeState = NodeState.IDLE
 
   constructor() {
     this.id = Node._id++
   }
 
-  setState(newState: Status) {
+  setState(newState: NodeState) {
     this.state = newState
   }
 
-  getState(): Status {
+  getState(): NodeState {
     return this.state
   }
 
@@ -32,6 +32,11 @@ export abstract class Node {
     if (this.totalCycles === 0) return this.totalCycles
     return this.idleCycles / this.totalCycles
   }
+
+  reset() {
+    this.totalCycles = 0
+    this.idleCycles = 0
+  }
 }
 
 export class BasicExecutionNode extends Node {
@@ -41,7 +46,7 @@ export class BasicExecutionNode extends Node {
   private srcPorts: Port[]
   private commands: Command[] = []
   private instructions: string
-  private index: number = 0
+  private index: number = -1
 
   constructor() {
     super()
@@ -104,7 +109,7 @@ export class BasicExecutionNode extends Node {
   }
 
   getInstructionIndex(): number {
-    if (this.commands.length === 0) return null
+    if (this.commands.length === 0 || this.index === -1) return null
 
     return this.commands[this.index].getLine()
   }
@@ -143,7 +148,7 @@ export class BasicExecutionNode extends Node {
   }
 
   executeRead() {
-    if (this.commands.length === 0) return
+    if (this.commands.length === 0 || this.index === -1) return
 
     this.commands[this.index].executeRead()
   }
@@ -151,7 +156,8 @@ export class BasicExecutionNode extends Node {
   executeWrite() {
     if (this.commands.length === 0) return
 
-    this.commands[this.index].executeWrite()
+    if (this.index === -1) this.index++
+    else this.commands[this.index].executeWrite()
   }
 
   execute() {
@@ -163,9 +169,10 @@ export class BasicExecutionNode extends Node {
     this.commands = new CommandParser(this.instructions, this).parseProgram()
   }
 
-  resetNode(): void {
-    this.index = 0
-    this.state = Status.IDLE
+  reset(): void {
+    super.reset()
+    this.index = -1
+    this.state = NodeState.IDLE
     this.ACC = 0
     this.BAK = 0
     this.dstPorts.forEach(port => port.reset())
@@ -199,6 +206,12 @@ export class Sink extends Node {
     if (this.srcPort.hasValue()) this.outputs.push(this.srcPort.popValue())
     else this.idleCycles++
   }
+
+  reset() {
+    super.reset()
+    this.outputs = []
+    if (this.srcPort) this.srcPort.reset()
+  }
 }
 
 export class NullSink extends Sink {
@@ -211,11 +224,14 @@ export class NullSink extends Sink {
   getOutputs() {
     return null
   }
+
+  execute() {}
 }
 
 export class Source extends Node {
   private dstPort: Port
   private inputs: number[] = []
+  private originalInputs: number[] = []
   protected static _id: number = 0
 
   constructor() {
@@ -240,6 +256,10 @@ export class Source extends Node {
     return this.inputs
   }
 
+  getOriginalInputs(): number[] {
+    return this.originalInputs
+  }
+
   execute() {
     this.totalCycles++
 
@@ -248,8 +268,18 @@ export class Source extends Node {
   }
 
   initInputs() {
-    for (let i = 0; i < 100; i++)
-      this.inputs.push(Math.floor(Math.random() * 100))
+    let n: number = 0
+    for (let i = 0; i < 100; i++) {
+      n = Math.floor(Math.random() * 100)
+      this.inputs.push(n)
+      this.originalInputs.push(n)
+    }
+  }
+
+  reset() {
+    super.reset()
+    this.inputs = [...this.originalInputs]
+    if (this.dstPort) this.dstPort.reset()
   }
 }
 
@@ -263,4 +293,6 @@ export class NullSource extends Source {
   getInputs() {
     return null
   }
+
+  execute() {}
 }
