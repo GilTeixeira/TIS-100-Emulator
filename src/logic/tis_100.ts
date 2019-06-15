@@ -1,13 +1,16 @@
 import { NodeFactory } from './node_factory'
 import { BasicExecutionNode, Source, Sink } from './node'
+import { level } from './level'
 
 export class Tis100 {
+  private level: level
   private nodeGrid: BasicExecutionNode[][]
   private sources: Source[]
   private sinks: Sink[]
 
-  constructor(x: number, y: number, sourcesPos: number[], sinksPos: number[]) {
-    let nodeFactory = new NodeFactory(x, y, sourcesPos, sinksPos)
+  constructor(level: level) {
+    this.level = level
+    let nodeFactory = new NodeFactory(level.x, level.y, level.sources, level.sinks)
     this.nodeGrid = nodeFactory.getNodeGrid()
     this.sinks = nodeFactory.getSinks()
     this.sources = nodeFactory.getSources()
@@ -41,11 +44,15 @@ export class Tis100 {
     return this.nodeGrid
   }
 
-  public getSources(): Source[] {
+  getSources(): Source[] {
     return this.sources
   }
 
-  public getSinks(): Sink[] {
+  getSinks(): Sink[] {
     return this.sinks
+  }
+
+  getLevel(): level {
+    return this.level
   }
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import './style/App.css'
 
 import { Tis100 } from './logic/tis_100'
+import { level1 } from './logic/level'
 
 import NodeGrid from './components/NodeGrid'
 import ControlPanel from './components/ControlPanel'
@@ -19,7 +20,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props)
 
     this.state = {
-      tis_100: new Tis100(3, 2, [0,1], [0,2])
+      tis_100: new Tis100(level1)
     }
   }
 
@@ -27,6 +28,7 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className='app'>
         <ControlPanel
+          tis_100={this.state.tis_100}
           onPlayClicked={this.testClick.bind(this)}
           onStepClicked={this.step.bind(this)}
         />

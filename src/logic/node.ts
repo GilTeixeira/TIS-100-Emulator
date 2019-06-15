@@ -29,7 +29,7 @@ export abstract class Node {
   execute() {}
 
   getIdleness() {
-    if(this.totalCycles === 0) return this.totalCycles
+    if (this.totalCycles === 0) return this.totalCycles
     return this.idleCycles / this.totalCycles
   }
 }
@@ -215,12 +215,13 @@ export class NullSink extends Sink {
 
 export class Source extends Node {
   private dstPort: Port
-  private inputs: number[]
+  private inputs: number[] = []
   protected static _id: number = 0
 
   constructor() {
     super()
     this.id = Source._id++
+    this.initInputs()
   }
 
   setDstPort(dstPort: Port) {
@@ -244,6 +245,11 @@ export class Source extends Node {
 
     if (!this.dstPort.hasValue()) this.dstPort.setValue(this.inputs.shift())
     else this.idleCycles++
+  }
+
+  initInputs() {
+    for (let i = 0; i < 100; i++)
+      this.inputs.push(Math.floor(Math.random() * 100))
   }
 }
 
