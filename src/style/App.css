@@ -33,12 +33,25 @@ body {
   box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.8);
   font-family: 'PxPlus IBM MDA';
   text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.buttons button:active {
+  box-shadow: 1px 1px 0px 0px rgba(255, 255, 255, 0.8);
+  transform: translate(3px, 3px);
+}
+
+.buttons button img {
+  margin-bottom: 8px;
 }
 
 /* Level Info */
 
 .levelInfo {
-  width: 336px;
   display: flex;
   color: #ffffff;
   flex-direction: column;

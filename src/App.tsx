@@ -29,8 +29,10 @@ class App extends React.Component<AppProps, AppState> {
       <div className='app'>
         <ControlPanel
           tis_100={this.state.tis_100}
-          onPlayClicked={this.testClick.bind(this)}
+          onStopClicked={this.stop.bind(this)}
           onStepClicked={this.step.bind(this)}
+          onRunClicked={this.run.bind(this)}
+          onFastClicked={this.fast.bind(this)}
         />
         <NodeGrid
           grid={this.state.tis_100.getGrid()}
@@ -45,7 +47,7 @@ class App extends React.Component<AppProps, AppState> {
     this.setState(state => state)
   }
 
-  testClick() {
+  stop() {
     this.refreshRender()
   }
 
@@ -53,6 +55,10 @@ class App extends React.Component<AppProps, AppState> {
     this.state.tis_100.step()
     this.refreshRender()
   }
+
+  run() {}
+
+  fast() {}
 }
 
 export default App

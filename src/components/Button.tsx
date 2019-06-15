@@ -6,13 +6,14 @@ type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 type ButtonProps = {
   name: string
   onClick: onClick
+  image: string
 }
 
 class Button extends React.Component<ButtonProps> {
   render() {
     return (
       <button onClick={this.props.onClick}>
-        <img />
+        <img src={this.props.image}/>
         {this.props.name}
       </button>
     )

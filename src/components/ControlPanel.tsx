@@ -3,6 +3,11 @@ import '../style/App.css'
 
 import { Tis100 } from '../logic/tis_100'
 
+import stop from '../images/stop.png'
+import step from '../images/step.png'
+import run from '../images/run.png'
+import fast from '../images/fast.png'
+
 import Button from './Button'
 import LevelInfo from './LevelInfo'
 import LevelValues from './LevelValues'
@@ -11,8 +16,10 @@ type onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 
 type ControlPanelProps = {
   tis_100: Tis100
-  onPlayClicked: onClick
+  onStopClicked: onClick
+  onRunClicked: onClick
   onStepClicked: onClick
+  onFastClicked: onClick
 }
 
 class ControlPanel extends React.Component<ControlPanelProps> {
@@ -29,8 +36,10 @@ class ControlPanel extends React.Component<ControlPanelProps> {
           transform={this.props.tis_100.getLevel().transform}
         />
         <div className='buttons'>
-          <Button name='render' onClick={this.props.onPlayClicked} />
-          <Button name='step' onClick={this.props.onStepClicked} />
+          <Button name='stop' image={stop} onClick={this.props.onStopClicked} />
+          <Button name='step' image={step} onClick={this.props.onStepClicked} />
+          <Button name='run' image={run} onClick={this.props.onRunClicked} />
+          <Button name='step' image={fast} onClick={this.props.onFastClicked} />
         </div>
       </div>
     )
