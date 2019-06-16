@@ -25,7 +25,7 @@ type AppProps = {}
 
 class App extends React.Component<AppProps, AppState> {
   private interval
-  private nextLevelTreshold : number = 10
+  private nextLevelTreshold : number = 20
   private levelIndex = 0
 
   constructor(props) {
@@ -100,14 +100,14 @@ class App extends React.Component<AppProps, AppState> {
         
         let outputs = this.state.tis_100.getSinks()[0].getOutputs()
 
-        if((outputs.length === this.nextLevelTreshold) && this.compareResults(outputs)){
+        if((outputs.length === this.nextLevelTreshold) && this.compareResults()){
           
           clearInterval(this.interval)
           this.changeLevel()
         }
 
         this.refreshRender()
-      }, 100)
+      }, 10)
       this.setState(state => ({ ...state, state: State.RUN }))
     }
   }
@@ -132,19 +132,22 @@ class App extends React.Component<AppProps, AppState> {
     }))
   }
 
-  compareResults(outputs: number[]): boolean{
-
+  compareResults(): boolean{
     let equalOutput: boolean = true
 
-    let originalInput = this.state.tis_100.getSources()[0].getOriginalInputs()
-    let trueOutput : number[][] = []
-    trueOutput.push(originalInput)
-    let trueResults = this.state.tis_100.getLevel().transform(trueOutput)[0]
-  
-    outputs.forEach((element, ind) => {
-      if (trueResults[ind] !== element) {
-        equalOutput = false
-      }
+    let sinksOut = this.state.tis_100.getSinks().map(sink => sink.getOutputs())
+
+    let originalInput = this.state.tis_100.getSources().map(source => source.getOriginalInputs())
+
+    let trueResults = this.state.tis_100.getLevel().transform(originalInput)
+    
+    sinksOut.forEach((skinOutEl, i) => {
+      if(skinOutEl !== null)
+      skinOutEl.forEach((element,e) => {
+        if (trueResults[i][e] !== element) {
+          equalOutput = false
+        }
+      })
     })
 
     return equalOutput
@@ -152,7 +155,7 @@ class App extends React.Component<AppProps, AppState> {
 
   changeLevel(){
 
-    switch(this.levelIndex){
+    switch(this.levelIndex++){
       case 0:
           this.setState({
             tis_100: new Tis100(level2),
@@ -166,9 +169,6 @@ class App extends React.Component<AppProps, AppState> {
           }
         )
     }
-    this.levelIndex++
-    
-    this.refreshRender()
   }
 }
 

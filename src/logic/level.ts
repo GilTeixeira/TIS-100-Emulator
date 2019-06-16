@@ -13,7 +13,7 @@ export type level = {
 
 export let level1: level = {
   title: 'Start',
-  description: 'Multiply all numbers by 2',
+  description: 'Multiply all numbers by 2\nLinha\nOutra Linha\nE outra linha',
   x: 3,
   y: 2,
   sources: [0],
@@ -23,21 +23,21 @@ export let level1: level = {
 }
 
 
-export let level2: level = {
+export let level3: level = {
   title: 'Start',
-  description: 'Write to OUT.0 1 if IN.0 higher than 20\n>Write to OUT.0 0 otherwise',
+  description: 'Write to OUT 1 if IN is higher than 50\nWrite to OUT 0 otherwise',
   x: 3,
   y: 2,
   sources: [0],
   sinks: [0],
   transform: (sourceValues: number[][]) =>
     sourceValues.map(source => source.map(value => {
-      if(value > 20) 
+      if(value > 50) 
         {return 1} else 
       {return 0}}))
 }
 
-export let level3: level = {
+export let level2: level = {
   title: 'Start',
   description: 'Multiply all the numbers by 4',
   x: 3,
