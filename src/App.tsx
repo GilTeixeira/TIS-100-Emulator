@@ -2,10 +2,12 @@ import React from 'react'
 import './style/App.css'
 
 import { Tis100 } from './logic/tis_100'
-import { level1 } from './logic/level'
+import { level1, level2, level3 } from './logic/level'
 
 import NodeGrid from './components/NodeGrid'
 import ControlPanel from './components/ControlPanel'
+import { CommandParser } from './logic/command_parser';
+import { Source, Sink, NullSource, NullSink } from './logic/node'
 
 enum State {
   IDLE,
@@ -23,6 +25,9 @@ type AppProps = {}
 
 class App extends React.Component<AppProps, AppState> {
   private interval
+  private nextLevelTreshold : number = 10
+  private levels = {level2, level3}
+  private levelIndex = 1
 
   constructor(props) {
     super(props)
@@ -93,8 +98,17 @@ class App extends React.Component<AppProps, AppState> {
       clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.state.tis_100.step()
+        
+        let outputs = this.state.tis_100.getSinks()[0].getOutputs()
+
+        if((outputs.length === this.nextLevelTreshold) && this.compareResults(outputs)){
+          
+          clearInterval(this.interval)
+          this.changeLevel()
+        }
+
         this.refreshRender()
-      }, 500)
+      }, 100)
       this.setState(state => ({ ...state, state: State.RUN }))
     }
   }
@@ -117,6 +131,34 @@ class App extends React.Component<AppProps, AppState> {
       ...state,
       state: error ? State.ERROR : State.IDLE
     }))
+  }
+
+  compareResults(outputs: number[]): boolean{
+
+    let equalOutput: boolean = true
+
+    let originalInput = this.state.tis_100.getSources()[0].getOriginalInputs()
+    let trueOutput : number[][] = []
+    trueOutput.push(originalInput)
+    let trueResults = this.state.tis_100.getLevel().transform(trueOutput)[0]
+  
+    outputs.forEach((element, ind) => {
+      if (trueResults[ind] !== element) {
+        equalOutput = false
+      }
+    })
+
+    return equalOutput
+  }
+
+  changeLevel(){
+    this.setState({
+      tis_100: new Tis100(this.levels[this.levelIndex++]),
+      state: State.IDLE
+      }
+    )
+    
+    this.refreshRender()
   }
 }
 
