@@ -26,8 +26,7 @@ type AppProps = {}
 class App extends React.Component<AppProps, AppState> {
   private interval
   private nextLevelTreshold : number = 10
-  private levels = {level2, level3}
-  private levelIndex = 1
+  private levelIndex = 0
 
   constructor(props) {
     super(props)
@@ -152,11 +151,22 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   changeLevel(){
-    this.setState({
-      tis_100: new Tis100(this.levels[this.levelIndex++]),
-      state: State.IDLE
-      }
-    )
+
+    switch(this.levelIndex){
+      case 0:
+          this.setState({
+            tis_100: new Tis100(level2),
+            state: State.IDLE
+            }
+          )
+      case 1:
+        this.setState({
+          tis_100: new Tis100(level3),
+          state: State.IDLE
+          }
+        )
+    }
+    this.levelIndex++
     
     this.refreshRender()
   }
