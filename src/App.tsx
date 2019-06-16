@@ -10,7 +10,8 @@ import ControlPanel from './components/ControlPanel'
 enum State {
   IDLE,
   RUN,
-  FAST
+  FAST,
+  ERROR
 }
 
 type AppState = {
@@ -51,6 +52,7 @@ class App extends React.Component<AppProps, AppState> {
           sinks={this.state.tis_100.getSinks()}
           sources={this.state.tis_100.getSources()}
           state={this.state.tis_100.getState()}
+          setErrorState={this.setErrorState.bind(this)}
         />
       </div>
     )
@@ -61,6 +63,8 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   stop() {
+    if (this.state.state === State.ERROR) return
+
     if (this.state.state !== State.IDLE) {
       this.setState(state => ({ ...state, state: State.IDLE }))
       clearInterval(this.interval)
@@ -71,6 +75,8 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   step() {
+    if (this.state.state === State.ERROR) return
+
     if (this.state.state !== State.IDLE) {
       this.setState(state => ({ ...state, state: State.IDLE }))
       clearInterval(this.interval)
@@ -81,6 +87,8 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   run() {
+    if (this.state.state === State.ERROR) return
+
     if (this.state.state !== State.RUN) {
       clearInterval(this.interval)
       this.interval = setInterval(() => {
@@ -92,14 +100,23 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   fast() {
+    if (this.state.state === State.ERROR) return
+
     if (this.state.state !== State.FAST) {
       clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.state.tis_100.step()
         this.refreshRender()
-      }, 100)
+      }, 10)
       this.setState(state => ({ ...state, state: State.FAST }))
     }
+  }
+
+  setErrorState(error: boolean) {
+    this.setState(state => ({
+      ...state,
+      state: error ? State.ERROR : State.IDLE
+    }))
   }
 }
 

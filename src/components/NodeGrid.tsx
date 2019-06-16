@@ -14,18 +14,26 @@ import {
 } from '../logic/node'
 import { Tis100State } from '../logic/macros'
 
+type setErrorState = (error: boolean) => void
+
 type NodeGridProps = {
   grid: BasicExecutionNode[][]
   sinks: SinkLogic[]
   sources: SourceLogic[]
   state: Tis100State
+  setErrorState: setErrorState
 }
 
 class NodeGrid extends React.Component<NodeGridProps> {
   render() {
     const grid = this.props.grid.map((gridRow, i) => {
       let nodes = gridRow.map((node, i) => (
-        <Node key={`node${i}`} node={node} locked={this.props.state === Tis100State.RUNNING} />
+        <Node
+          key={`node${i}`}
+          node={node}
+          locked={this.props.state === Tis100State.RUNNING}
+          setErrorState={this.props.setErrorState}
+        />
       ))
 
       return (

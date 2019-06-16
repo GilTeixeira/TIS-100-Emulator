@@ -321,3 +321,24 @@ body {
 .port.DOWN .arrow {
   transform: rotate(-90deg);
 }
+
+.errorMessage {
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  width: 228px;
+  height: 48px;
+  left: -4px;
+  top: -52px;
+  z-index: 20;
+  background-color: #000000;
+  box-sizing: border-box;
+  padding-bottom: 4px;
+}
+
+.errorMessage p {
+  width: 100%;
+  border: 4px solid #820a0a;
+  color: #820a0a;
+  text-align: center;
+}

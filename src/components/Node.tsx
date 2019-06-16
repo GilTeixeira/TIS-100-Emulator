@@ -9,13 +9,35 @@ import NodeDisplay from './NodeDisplay'
 import NodeInputs from './NodeInputs'
 import Port from './Port'
 
+type error = {
+  line: number
+  startColumn: number
+  endColumn: number
+  token: string
+}
+
+type setErrorState = (error: boolean) => void
+
+type NodeState = {
+  error: error
+}
+
 type NodeProps = {
   node: BasicExecutionNode
   locked: boolean
+  setErrorState: setErrorState
 }
 
-class Node extends React.Component<NodeProps> {
+
+class Node extends React.Component<NodeProps, NodeState> {
   private nodeInputs: NodeInputs
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      error: null
+    }
+  }
 
   render() {
     const ports = this.props.node.getSrcPorts().reduce((ports, port, i) => {
@@ -33,6 +55,11 @@ class Node extends React.Component<NodeProps> {
 
     return (
       <div className='node' key={this.props.node.getID()}>
+        {this.state.error && (
+          <div className='errorMessage'>
+            <p>{`INVALID TOKEN "${this.state.error.token.toUpperCase()}"`}</p>
+          </div>
+        )}
         <NodeInputs
           node={this.props.node}
           instructions={this.props.node.getInstructions()}
@@ -54,15 +81,19 @@ class Node extends React.Component<NodeProps> {
   updateInstructions() {
     try {
       this.props.node.setInstructions(this.nodeInputs.getValue())
+      this.setState(_ => ({ error: null }))
+      this.props.setErrorState(false)
     } catch (e) {
-      const line = e.token.startLine - 1
-      const startColumn = e.token.startColumn - 1
-      const endColumn = e.token.endColumn
-      const token = this.nodeInputs
-        .getValueIndex(line)
-        .substring(startColumn, endColumn)
-      const error = `Unexpected Token "${token}"`
-      console.log(error)
+      const newError: error = {
+        line: e.token.startLine - 1,
+        startColumn: e.token.startColumn - 1,
+        endColumn: e.token.endColumn,
+        token: this.nodeInputs
+          .getValueIndex(e.token.startLine - 1)
+          .substring(e.token.startColumn - 1, e.token.endColumn)
+      }
+      this.setState(_ => ({ error: newError }))
+      this.props.setErrorState(true)
     }
   }
 }
