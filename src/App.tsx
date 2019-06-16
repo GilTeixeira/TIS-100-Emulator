@@ -107,7 +107,7 @@ class App extends React.Component<AppProps, AppState> {
         }
 
         this.refreshRender()
-      }, 10)
+      }, 250)
       this.setState(state => ({ ...state, state: State.RUN }))
     }
   }
