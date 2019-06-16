@@ -23,7 +23,7 @@ export let level1: level = {
 }
 
 
-export let level3: level = {
+export let level2: level = {
   title: 'Start',
   description: 'Write to OUT 1 if IN is higher than 50\nWrite to OUT 0 otherwise',
   x: 3,
@@ -37,7 +37,7 @@ export let level3: level = {
       {return 0}}))
 }
 
-export let level2: level = {
+export let level3: level = {
   title: 'Start',
   description: 'Multiply all the numbers by 4',
   x: 3,

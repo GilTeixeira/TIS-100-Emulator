@@ -25,7 +25,7 @@ type AppProps = {}
 
 class App extends React.Component<AppProps, AppState> {
   private interval
-  private nextLevelTreshold : number = 20
+  private nextLevelTreshold : number = 39
   private levelIndex = 0
 
   constructor(props) {
@@ -100,10 +100,10 @@ class App extends React.Component<AppProps, AppState> {
         
         let outputs = this.state.tis_100.getSinks()[0].getOutputs()
 
-        if((outputs.length === this.nextLevelTreshold) && this.compareResults()){
-          
+
+        if(outputs.length === this.nextLevelTreshold){
+          this.compareResults()
           clearInterval(this.interval)
-          this.changeLevel()
         }
 
         this.refreshRender()
@@ -133,6 +133,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   compareResults(): boolean{
+    
     let equalOutput: boolean = true
 
     let sinksOut = this.state.tis_100.getSinks().map(sink => sink.getOutputs())
@@ -150,6 +151,10 @@ class App extends React.Component<AppProps, AppState> {
       })
     })
 
+    if(equalOutput){
+      this.changeLevel()
+    }
+
     return equalOutput
   }
 
@@ -162,12 +167,14 @@ class App extends React.Component<AppProps, AppState> {
             state: State.IDLE
             }
           )
+          break;
       case 1:
         this.setState({
           tis_100: new Tis100(level3),
           state: State.IDLE
           }
         )
+        break;
     }
   }
 }
