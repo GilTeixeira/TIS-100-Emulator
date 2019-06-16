@@ -8,10 +8,16 @@ type LevelInfoProps = {
 
 class LevelInfo extends React.Component<LevelInfoProps> {
   render() {
+    let desc = this.props.description
+
+    let desLines = desc.split('\n').map((item, i) => {
+      return <div key={i}>{`> ${item} `}</div>; 
+    });
+
     return (
       <div className='levelInfo'>
         <h1>{`- ${this.props.title} -`}</h1>
-        <p>{` > ${this.props.description}`}</p>
+        <p>{desLines}</p>
       </div>
     )
   }

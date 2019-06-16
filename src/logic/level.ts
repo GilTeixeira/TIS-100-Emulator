@@ -13,7 +13,7 @@ export type level = {
 
 export let level1: level = {
   title: 'Start',
-  description: 'Multiply all the numbers by 2',
+  description: 'Multiply all numbers by 2',
   x: 3,
   y: 2,
   sources: [0],
