@@ -178,6 +178,8 @@ class NodeFactory {
 }
 ```
 #### [State Pattern](https://en.wikipedia.org/wiki/State_pattern)
+The behavior of the node changes based on its state.
+
 ```typescript
 
 export enum NodeState {
@@ -207,6 +209,8 @@ export abstract class Node {
 ```
 
 #### [Builder](https://en.wikipedia.org/wiki/Builder_pattern)
+Builder pattern was used to build the TIS-100 nodes using a step by step approach. First the grid of main nodes is created, following by the sources and sinks, finally the ports that connect adjacent are built.
+
 ```typescript
 
 export class NodeBuilder {
@@ -242,7 +246,7 @@ export class NodeBuilder {
 
 ```
 
-[Iterator](https://en.wikipedia.org/wiki/Iterator_pattern)
+#### [Iterator](https://en.wikipedia.org/wiki/Iterator_pattern)
 
 This pattern was used to sequentially access the commands of an array of commands, without the implementation being exposed. Moreover, it was also implemented a way to handle the jumps between the instructions.
 ```
