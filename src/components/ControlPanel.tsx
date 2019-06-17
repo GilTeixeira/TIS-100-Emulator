@@ -39,7 +39,7 @@ class ControlPanel extends React.Component<ControlPanelProps> {
           <Button name='stop' image={stop} onClick={this.props.onStopClicked} />
           <Button name='step' image={step} onClick={this.props.onStepClicked} />
           <Button name='run' image={run} onClick={this.props.onRunClicked} />
-          <Button name='step' image={fast} onClick={this.props.onFastClicked} />
+          <Button name='fast' image={fast} onClick={this.props.onFastClicked} />
         </div>
       </div>
     )

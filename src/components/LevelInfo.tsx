@@ -11,13 +11,13 @@ class LevelInfo extends React.Component<LevelInfoProps> {
     let desc = this.props.description
 
     let desLines = desc.split('\n').map((item, i) => {
-      return <ul key={i}>{`> ${item} `}</ul>; 
+      return <p key={i}>{`> ${item} `}</p>; 
     });
 
     return (
       <div className='levelInfo'>
         <h1>{`- ${this.props.title} -`}</h1>
-        <p>{desLines}</p>
+        <div className='levelDescription'>{desLines}</div>
       </div>
     )
   }

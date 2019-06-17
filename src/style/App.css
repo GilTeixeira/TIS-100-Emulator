@@ -68,7 +68,7 @@ body {
   margin-bottom: 8px;
 }
 
-.levelInfo p {
+.levelInfo .levelDescription {
   width: 100%;
   height: 128px;
   overflow: hidden;

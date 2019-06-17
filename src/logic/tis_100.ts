@@ -1,5 +1,5 @@
 import { NodeFactory } from './node_factory'
-import { BasicExecutionNode, Source, Sink } from './node'
+import { BasicExecutionNode, Node, Source, Sink } from './node'
 import { level } from './level'
 import { Tis100State } from './macros'
 
@@ -18,6 +18,11 @@ export class Tis100 {
       level.sources,
       level.sinks
     )
+    
+    Node._id = 0
+    Sink._id = 0
+    Source._id = 0
+
     this.nodeGrid = nodeFactory.getNodeGrid()
     this.sinks = nodeFactory.getSinks()
     this.sources = nodeFactory.getSources()

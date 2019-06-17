@@ -4,7 +4,7 @@ import Command from './commands'
 import { CommandParser } from './command_parser'
 
 export abstract class Node {
-  protected static _id: number = 0
+  public static _id: number = 0
   protected id: number
   protected totalCycles: number = 0
   protected idleCycles: number = 0
@@ -182,7 +182,7 @@ export class BasicExecutionNode extends Node {
 export class Sink extends Node {
   private srcPort: Port
   private outputs: number[] = []
-  protected static _id: number = 0
+  public static _id: number = 0
 
   constructor() {
     super()
@@ -232,7 +232,7 @@ export class Source extends Node {
   private dstPort: Port
   private inputs: number[] = []
   private originalInputs: number[] = []
-  protected static _id: number = 0
+  public static _id: number = 0
 
   constructor() {
     super()
@@ -269,7 +269,7 @@ export class Source extends Node {
 
   initInputs() {
     let n: number = 0
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
       n = Math.floor(Math.random() * 100)
       this.inputs.push(n)
       this.originalInputs.push(n)
@@ -291,6 +291,10 @@ export class NullSource extends Source {
   }
 
   getInputs() {
+    return null
+  }
+
+  getOriginalInputs() {
     return null
   }
 

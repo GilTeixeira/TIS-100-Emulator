@@ -2,12 +2,11 @@ import React from 'react'
 import './style/App.css'
 
 import { Tis100 } from './logic/tis_100'
-import { level1, level2, level3 } from './logic/level'
+import { levels } from './logic/level'
 
 import NodeGrid from './components/NodeGrid'
 import ControlPanel from './components/ControlPanel'
-import { CommandParser } from './logic/command_parser';
-import { Source, Sink, NullSource, NullSink } from './logic/node'
+import { NullSink, NullSource } from './logic/node'
 
 enum State {
   IDLE,
@@ -19,21 +18,21 @@ enum State {
 type AppState = {
   tis_100: Tis100
   state: State
+  currentLevel: number
 }
 
 type AppProps = {}
 
 class App extends React.Component<AppProps, AppState> {
   private interval
-  private nextLevelTreshold : number = 39
-  private levelIndex = 0
 
   constructor(props) {
     super(props)
 
     this.state = {
-      tis_100: new Tis100(level1),
-      state: State.IDLE
+      tis_100: new Tis100(levels[0]),
+      state: State.IDLE,
+      currentLevel: 0
     }
   }
 
@@ -87,7 +86,10 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     this.state.tis_100.step()
+    this.checkEndLevel()
     this.refreshRender()
+
+    this.state.tis_100.getGrid().forEach(row => row.forEach(node => console.log(node)))
   }
 
   run() {
@@ -97,17 +99,9 @@ class App extends React.Component<AppProps, AppState> {
       clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.state.tis_100.step()
-        
-        let outputs = this.state.tis_100.getSinks()[0].getOutputs()
-
-
-        if(outputs.length === this.nextLevelTreshold){
-          this.compareResults()
-          clearInterval(this.interval)
-        }
-
+        this.checkEndLevel()
         this.refreshRender()
-      }, 250)
+      }, 500)
       this.setState(state => ({ ...state, state: State.RUN }))
     }
   }
@@ -119,6 +113,7 @@ class App extends React.Component<AppProps, AppState> {
       clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.state.tis_100.step()
+        this.checkEndLevel()
         this.refreshRender()
       }, 10)
       this.setState(state => ({ ...state, state: State.FAST }))
@@ -132,50 +127,62 @@ class App extends React.Component<AppProps, AppState> {
     }))
   }
 
-  compareResults(): boolean{
-    
+  checkEndLevel(): void {
+    if (
+      this.state.tis_100.getSinks().every(sink => {
+        if (sink instanceof NullSink) return true
+        else return sink.getOutputs().length >= 50
+      })
+    ) {
+      this.compareResults()
+      clearInterval(this.interval)
+    }
+  }
+
+  compareResults(): boolean {
     let equalOutput: boolean = true
 
-    let sinksOut = this.state.tis_100.getSinks().map(sink => sink.getOutputs())
+    let sinkOutputs = this.state.tis_100
+      .getSinks()
+      .filter(sink => !(sink instanceof NullSink))
+      .map(sink => sink.getOutputs())
 
-    let originalInput = this.state.tis_100.getSources().map(source => source.getOriginalInputs())
+    let originalInputs = this.state.tis_100
+      .getSources()
+      .filter(source => !(source instanceof NullSource))
+      .map(source => source.getOriginalInputs())
 
-    let trueResults = this.state.tis_100.getLevel().transform(originalInput)
-    
-    sinksOut.forEach((skinOutEl, i) => {
-      if(skinOutEl !== null)
-      skinOutEl.forEach((element,e) => {
-        if (trueResults[i][e] !== element) {
-          equalOutput = false
-        }
-      })
+    let trueResults = this.state.tis_100.getLevel().transform(originalInputs)
+
+    sinkOutputs.forEach((sinkArray, i) => {
+      if (sinkArray !== null)
+        sinkArray.forEach((value, e) => {
+          if (trueResults[i][e] !== value) {
+            equalOutput = false
+          }
+        })
     })
 
-    if(equalOutput){
+    if (equalOutput) {
       this.changeLevel()
     }
 
     return equalOutput
   }
 
-  changeLevel(){
-
-    switch(this.levelIndex++){
-      case 0:
-          this.setState({
-            tis_100: new Tis100(level2),
-            state: State.IDLE
-            }
-          )
-          break;
-      case 1:
-        this.setState({
-          tis_100: new Tis100(level3),
-          state: State.IDLE
-          }
-        )
-        break;
-    }
+  changeLevel() {
+    if (this.state.currentLevel + 1 >= levels.length)
+      this.setState(state => ({
+        tis_100: new Tis100(levels[0]),
+        state: State.IDLE,
+        currentLevel: state.currentLevel + 1
+      }))
+    else
+      this.setState(state => ({
+        tis_100: new Tis100(levels[state.currentLevel + 1]),
+        state: State.IDLE,
+        currentLevel: state.currentLevel + 1
+      }))
   }
 }
 
