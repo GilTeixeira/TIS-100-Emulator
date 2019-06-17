@@ -88,8 +88,8 @@ describe('Test NodeFactory', () => {
       jro label1     '
     let nodeTopLeft = grid[0][0]
     let nodeTopRight = grid[0][1]
-    nodeTopLeft.resetNode()
-    nodeTopRight.resetNode()
+    nodeTopLeft.reset()
+    nodeTopRight.reset()
 
     nodeTopLeft.setInstructions(program)
     let commands = nodeTopLeft.getCommands()
@@ -109,32 +109,11 @@ describe('Test NodeFactory', () => {
     expect(commands[12] instanceof JroCommand).to.be.true
     commands[6].execute()
     expect(nodeTopRight.readNumber(Directions.LEFT)).to.equal(5)
-  })
 
-  it('Test Sink and Sources', () => {
-    let tis100 = new Tis100(1, 1, [0], [0])
-    let nodeGrid = tis100.getGrid()
-    let node = nodeGrid[0][0]
-    let sinks = tis100.getSinks()
-    let sources = tis100.getSources()
-
-    sources[0].setInputs([1, 2, 3, 4])
-
-    node.setInstructions('mov Up Down')
-
-    tis100.step()
-
-    expect(sources[0].getInputs()).to.eql([2, 3, 4])
-    expect(sinks[0].getOutputs()).to.eql([1])
-
-    tis100.step()
-    tis100.step()
-    tis100.step()
-    tis100.step()
-    tis100.step()
-    tis100.step()
-
-    expect(sources[0].getInputs()).to.eql([])
-    expect(sinks[0].getOutputs()).to.eql([1, 2, 3, 4])
+    expect(commands[0].getLabels().length).to.equal(0)
+    console.log(commands[1])
+    expect(commands[1].getLabels().includes('LABEL1')).to.be.true
+    expect(commands[1].getLabels().includes('LABEL2')).to.be.true
+    expect(commands[2].getLabels().length).to.equal(0)
   })
 })

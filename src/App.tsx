@@ -63,6 +63,11 @@ class App extends React.Component<AppProps, AppState> {
 
   refreshRender() {
     this.setState(state => state)
+    this.state.tis_100.getGrid().forEach(row => {
+      row.forEach(node => {
+        console.log(node)
+      })
+    })
   }
 
   stop() {
@@ -89,7 +94,9 @@ class App extends React.Component<AppProps, AppState> {
     this.checkEndLevel()
     this.refreshRender()
 
-    this.state.tis_100.getGrid().forEach(row => row.forEach(node => console.log(node)))
+    this.state.tis_100
+      .getGrid()
+      .forEach(row => row.forEach(node => console.log(node)))
   }
 
   run() {
