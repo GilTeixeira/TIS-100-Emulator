@@ -1,7 +1,5 @@
 # TIS-100 Emulator
-TIS-100 is an open-ended programming game in which you rewrite corrupted code segments to repair the TIS-100 and unlock its secrets. It’s the assembly language programming game you never asked for!
 
----
 ### [Demo](https://gilteixeira.github.io/feup-asso/)
 ![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/demo.png)
 
@@ -25,10 +23,9 @@ Develop a [TIS-100](http://www.zachtronics.com/tis-100/) clone, a programming ga
 ### Functionalities
 - Support for multiple levels.
 - Parse and Error handling of users' input.
-- 
+- Step over instructions
 ---
 
----
 ### Architecture
 
 Placeholder:
