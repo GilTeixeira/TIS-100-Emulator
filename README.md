@@ -1,7 +1,7 @@
 # TIS-100 Emulator
 
 ### [Demo](https://gilteixeira.github.io/feup-asso/)
-![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/demo.png)
+[<img src="https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/demo.png">](https://gilteixeira.github.io/feup-asso/)
 
 ---
 
@@ -155,7 +155,8 @@ class NullPort extends Port {
 ```
 
 #### [State Pattern](https://en.wikipedia.org/wiki/State_pattern)
-The behavior of the node changes based on its state.
+The behavior of the node changes based on its state. The states `WRTE` and `READ` block the execution of the node until the respective port is either read from or wrote on.
+
 
 ```typescript
 
