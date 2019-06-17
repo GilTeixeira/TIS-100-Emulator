@@ -373,7 +373,7 @@ class App extends React.Component<AppProps, AppState> {
 ### Design Review
 
 #### Does the architecture satisfy the requirements?
-YThe finished architecture models everything that was proposed in the begining.
+The finished architecture models everything that was proposed in the begining.
 
 #### Is effective modularity achieved?
 The TIS-100 machine logic is completely isolated from the UI components, if a new machine is created and updated in the App controller state, this new machine would be rendered without requiring anything else to be changed in the view layer.
