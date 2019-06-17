@@ -28,8 +28,8 @@ Develop a [TIS-100](http://www.zachtronics.com/tis-100/) clone, a programming ga
 
 ### Architecture
 
-Placeholder:
-![](https://i.imgur.com/0y4YZD7.png)
+![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/arch_diagram.png)
+
 
 ### Design Patterns Used
 
@@ -187,8 +187,10 @@ export abstract class Node {
 ```
 
 #### [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern)
-![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/builder.png)
+
 Builder pattern was used to build the TIS-100 nodes using a step by step approach. First the grid of main nodes is created, following by the sources and sinks, finally the ports that connect adjacent are built.
+
+![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/builder.png)
 
 ```typescript
 
