@@ -1,5 +1,5 @@
 import { lex } from './lexer'
-import { parser } from './parser'
+import { parser } from './serialized_parser'
 
 // The base visitor class can be accessed via the a parser instance.
 const BaseVisitor = parser.getBaseCstVisitorConstructor()

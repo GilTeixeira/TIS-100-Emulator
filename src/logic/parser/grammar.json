@@ -1,0 +1,553 @@
+[
+  {
+    "type": "Rule",
+    "name": "program",
+    "orgText": "() => {\n            this.AT_LEAST_ONE_SEP({\n                SEP: Newline,\n                DEF: () => {\n                    this.OPTION(() => {\n                        this.SUBRULE(this.line);\n                    });\n                }\n            });\n        }",
+    "definition": [
+      {
+        "type": "RepetitionMandatoryWithSeparator",
+        "idx": 0,
+        "separator": {
+          "type": "Terminal",
+          "name": "Newline",
+          "label": "Newline",
+          "idx": 1,
+          "pattern": "(\\r\\n|\\r|\\n)"
+        },
+        "definition": [
+          {
+            "type": "Option",
+            "idx": 0,
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "line",
+                "idx": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "line",
+    "orgText": "() => {\n            this.OR([\n                {\n                    ALT: () => {\n                        this.SUBRULE(this.label);\n                        this.SUBRULE(this.instruction);\n                    }\n                },\n                { ALT: () => this.SUBRULE2(this.instruction) },\n                { ALT: () => this.SUBRULE2(this.label) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "label",
+                "idx": 0
+              },
+              {
+                "type": "NonTerminal",
+                "name": "instruction",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "instruction",
+                "idx": 2
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "label",
+                "idx": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "label",
+    "orgText": "() => {\n            this.CONSUME(Identifier);\n            this.CONSUME(Colon);\n        }",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "Identifier",
+        "label": "Identifier",
+        "idx": 0,
+        "pattern": "[a-zA-Z]\\w*"
+      },
+      {
+        "type": "Terminal",
+        "name": "Colon",
+        "label": "Colon",
+        "idx": 0,
+        "pattern": ":"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "instruction",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.SUBRULE(this.nullOp) },\n                { ALT: () => this.SUBRULE(this.unaryOp) },\n                { ALT: () => this.SUBRULE(this.binaryOp) },\n                { ALT: () => this.SUBRULE(this.jumpOp) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "nullOp",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "unaryOp",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "binaryOp",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "jumpOp",
+                "idx": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "nullOp",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.CONSUME(Nop) },\n                { ALT: () => this.CONSUME(Swp) },\n                { ALT: () => this.CONSUME(Sav) },\n                { ALT: () => this.CONSUME(Neg) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Nop",
+                "label": "Nop",
+                "idx": 0,
+                "pattern": "Nop"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Swp",
+                "label": "Swp",
+                "idx": 0,
+                "pattern": "Swp"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Sav",
+                "label": "Sav",
+                "idx": 0,
+                "pattern": "Sav"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Neg",
+                "label": "Neg",
+                "idx": 0,
+                "pattern": "Neg"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "unaryOp",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.CONSUME(Sub) },\n                { ALT: () => this.CONSUME(Add) }\n            ]);\n            this.SUBRULE(this.operand);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Sub",
+                "label": "Sub",
+                "idx": 0,
+                "pattern": "Sub"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Add",
+                "label": "Add",
+                "idx": 0,
+                "pattern": "Add"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "NonTerminal",
+        "name": "operand",
+        "idx": 0
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "binaryOp",
+    "orgText": "() => {\n            this.CONSUME(Mov);\n            this.SUBRULE(this.operand, { LABEL: 'lhs' });\n            this.SUBRULE2(this.operand, { LABEL: 'rhs' });\n        }",
+    "definition": [
+      {
+        "type": "Terminal",
+        "name": "Mov",
+        "label": "Mov",
+        "idx": 0,
+        "pattern": "Mov"
+      },
+      {
+        "type": "NonTerminal",
+        "name": "operand",
+        "idx": 0
+      },
+      {
+        "type": "NonTerminal",
+        "name": "operand",
+        "idx": 2
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "jumpOp",
+    "orgText": "() => {\n            this.SUBRULE(this.jumpOps);\n            this.CONSUME(Identifier);\n        }",
+    "definition": [
+      {
+        "type": "NonTerminal",
+        "name": "jumpOps",
+        "idx": 0
+      },
+      {
+        "type": "Terminal",
+        "name": "Identifier",
+        "label": "Identifier",
+        "idx": 0,
+        "pattern": "[a-zA-Z]\\w*"
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "jumpOps",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.CONSUME(Jmp) },\n                { ALT: () => this.CONSUME(Jez) },\n                { ALT: () => this.CONSUME(Jnz) },\n                { ALT: () => this.CONSUME(Jgz) },\n                { ALT: () => this.CONSUME(Jlz) },\n                { ALT: () => this.CONSUME(Jro) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jmp",
+                "label": "Jmp",
+                "idx": 0,
+                "pattern": "Jmp"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jez",
+                "label": "Jez",
+                "idx": 0,
+                "pattern": "Jez"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jnz",
+                "label": "Jnz",
+                "idx": 0,
+                "pattern": "Jnz"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jgz",
+                "label": "Jgz",
+                "idx": 0,
+                "pattern": "Jgz"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jlz",
+                "label": "Jlz",
+                "idx": 0,
+                "pattern": "Jlz"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Jro",
+                "label": "Jro",
+                "idx": 0,
+                "pattern": "Jro"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "operand",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.SUBRULE(this.port) },\n                { ALT: () => this.SUBRULE(this.register) },\n                { ALT: () => this.CONSUME(Integer) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "port",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "NonTerminal",
+                "name": "register",
+                "idx": 0
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Integer",
+                "label": "Integer",
+                "idx": 0,
+                "pattern": "(0|-?([1-9][0-9][0-9]|[1-9][0-9]|[1-9]))"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "port",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.CONSUME(Left) },\n                { ALT: () => this.CONSUME(Right) },\n                { ALT: () => this.CONSUME(Up) },\n                { ALT: () => this.CONSUME(Down) },\n                { ALT: () => this.CONSUME(Any) },\n                { ALT: () => this.CONSUME(Last) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Left",
+                "label": "Left",
+                "idx": 0,
+                "pattern": "Left"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Right",
+                "label": "Right",
+                "idx": 0,
+                "pattern": "Right"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Up",
+                "label": "Up",
+                "idx": 0,
+                "pattern": "Up"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Down",
+                "label": "Down",
+                "idx": 0,
+                "pattern": "Down"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Any",
+                "label": "Any",
+                "idx": 0,
+                "pattern": "Any"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Last",
+                "label": "Last",
+                "idx": 0,
+                "pattern": "Last"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Rule",
+    "name": "register",
+    "orgText": "() => {\n            this.OR([\n                { ALT: () => this.CONSUME(Nil) },\n                { ALT: () => this.CONSUME(Acc) }\n            ]);\n        }",
+    "definition": [
+      {
+        "type": "Alternation",
+        "idx": 0,
+        "definition": [
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Nil",
+                "label": "Nil",
+                "idx": 0,
+                "pattern": "Nil"
+              }
+            ]
+          },
+          {
+            "type": "Flat",
+            "definition": [
+              {
+                "type": "Terminal",
+                "name": "Acc",
+                "label": "Acc",
+                "idx": 0,
+                "pattern": "Acc"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

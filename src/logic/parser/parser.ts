@@ -1,5 +1,5 @@
 import { CstParser } from 'chevrotain'
-import { lex, tokenVocabulary } from './lexer'
+import { tokenVocabulary } from './lexer'
 
 //nullOperators
 const Nop = tokenVocabulary.Nop
@@ -152,18 +152,4 @@ class Parser extends CstParser {
   })
 }
 
-const parser = new Parser(tokenVocabulary, { outputCst: true })
-
-function parse(text) {
-  const lexingResult = lex(text)
-
-  // "input" is a setter which will reset the parser's state.
-  parser.input = lexingResult.tokens
-  parser.program()
-
-  if (parser.errors.length > 0) {
-    throw new Error(parser.errors[0].message)
-  }
-}
-
-export { parser, parse }
+export { Parser }
