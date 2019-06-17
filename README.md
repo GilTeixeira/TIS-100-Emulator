@@ -384,7 +384,7 @@ The TIS-100 machine logic is completely isolated from the UI components, if a ne
 New functionalities and tests should be straightforward to implement since all of the TIS-100 functionality is propperly divided assuring a high level of cohesion in the code.
 
 #### Have quality factors been explicitly assessed?
-There are tests to assert that some logic functionalities work properly, more test should be implemented for a more thorough comerage of the logic codebase. No tests were implemented for the UI layer built with React.
+There are tests to assert that some logic functionalities work properly, more test should be implemented for a more thorough coverage of the logic codebase. No tests were implemented for the UI layer built with React.
 All of the code was linted to assure a certain code quality and best practices.
 
 ### Building the project
