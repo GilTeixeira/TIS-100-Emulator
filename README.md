@@ -156,7 +156,7 @@ class NullPort extends Port {
 #### [State Pattern](https://en.wikipedia.org/wiki/State_pattern)
 The behavior of the node changes based on its state. The states `WRTE` and `READ` block the execution of the node until the respective port is either read from or wrote on.
 
-
+![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/State.png)
 ```typescript
 
 export enum NodeState {
