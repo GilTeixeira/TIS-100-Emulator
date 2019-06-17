@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/feup-asso/static/css/main.8059e3e7.chunk.css",
-    "main.js": "/feup-asso/static/js/main.7873ddd0.chunk.js",
-    "main.js.map": "/feup-asso/static/js/main.7873ddd0.chunk.js.map",
+    "main.js": "/feup-asso/static/js/main.bb35e50b.chunk.js",
+    "main.js.map": "/feup-asso/static/js/main.bb35e50b.chunk.js.map",
     "runtime~main.js": "/feup-asso/static/js/runtime~main.e523d3f8.js",
     "runtime~main.js.map": "/feup-asso/static/js/runtime~main.e523d3f8.js.map",
-    "static/js/2.d0b992c5.chunk.js": "/feup-asso/static/js/2.d0b992c5.chunk.js",
-    "static/js/2.d0b992c5.chunk.js.map": "/feup-asso/static/js/2.d0b992c5.chunk.js.map",
+    "static/js/2.33611250.chunk.js": "/feup-asso/static/js/2.33611250.chunk.js",
+    "static/js/2.33611250.chunk.js.map": "/feup-asso/static/js/2.33611250.chunk.js.map",
     "index.html": "/feup-asso/index.html",
-    "precache-manifest.1da8f9c4e1072ffdc2d2bd0444260c4f.js": "/feup-asso/precache-manifest.1da8f9c4e1072ffdc2d2bd0444260c4f.js",
+    "precache-manifest.61f33300072d722e2e2f51b212a84573.js": "/feup-asso/precache-manifest.61f33300072d722e2e2f51b212a84573.js",
     "service-worker.js": "/feup-asso/service-worker.js",
     "static/css/main.8059e3e7.chunk.css.map": "/feup-asso/static/css/main.8059e3e7.chunk.css.map",
     "static/media/index.css": "/feup-asso/static/media/PxPlus_IBM_MDA.c29e747e.woff"
