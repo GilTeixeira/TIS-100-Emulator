@@ -242,10 +242,10 @@ export class NodeBuilder {
 
 ```
 
-[Iterator](https://en.wikipedia.org/wiki/Iterator_pattern)
+#### [Iterator](https://en.wikipedia.org/wiki/Iterator_pattern)
 
 This pattern was used to sequentially access the commands of an array of commands, without the implementation being exposed. Moreover, it was also implemented a way to handle the jumps between the instructions.
-```
+```typescript
 class BasicExecutionNode extends Node {
   private commands: Command[] = []
   private index: number = -1
@@ -263,9 +263,66 @@ class BasicExecutionNode extends Node {
 ```
 
 ### React
-The UI for this project was developed using [React](https://reactjs.org/). The library was chosen to simplify rendering such a complex state in the browser. The group was already familiar with react so it was straightforward to imlement. There are several design patterns that are used by the framework which are then used in the final project, we'll talk more about some of them below.
+The UI for this project was developed using [React](https://reactjs.org/). The library was chosen to simplify rendering such a complex state in the browser. The group was already familiar with react so it was straightforward to imlement. There are several design patterns that are used by the framework which are present in the project, we'll talk more about some of them below.
 
 #### [Composite Pattern](https://en.wikipedia.org/wiki/Composite_pattern)
+
+One of the central features of react is the components, these components are classes that implemente a render method that renders the component straight to the DOM. A component can render other components in it's render method, that in turn will call said component render and so forth.
+```typescript
+class Node extends React.Component<NodeProps, NodeState> {
+  private nodeInputs: NodeInputs
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      error: null
+    }
+  }
+
+  render() {
+    const ports = this.props.node.getSrcPorts().reduce((ports, port, i) => {
+      if (!(port instanceof NullPort))
+        ports.push(
+          <Port
+            key={`port${i}`}
+            direction={Directions[i]}
+            value={port.getValue()}
+          />
+        )
+
+      return ports
+    }, [])
+
+    return (
+      <div className='node' key={this.props.node.getID()}>
+        {this.state.error && (
+          <div className='errorMessage'>
+            <p>{`INVALID TOKEN "${this.state.error.token.toUpperCase()}"`}</p>
+          </div>
+        )}
+        <NodeInputs
+          node={this.props.node}
+          instructions={this.props.node.getInstructions()}
+          locked={this.props.locked}
+          updateInstructions={this.updateInstructions.bind(this)}
+          ref={ref => (this.nodeInputs = ref)}
+        />
+        <div className='info'>
+          <NodeDisplay tooltip='ACC' value={this.props.node.getACC()} />
+          <NodeDisplay tooltip='BAK' value={`<${this.props.node.getBAK()}>`} />
+          <NodeDisplay tooltip='LAST' value='N/A' />
+          <NodeDisplay tooltip='MODE' value={this.props.node.getState()} />
+        </div>
+        {ports}
+      </div>
+    )
+  }
+
+  ...
+  
+}
+
+```
 
 #### [Model-View-Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 ---
