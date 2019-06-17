@@ -1,4 +1,4 @@
-import { NodeFactory } from './node_factory'
+import { NodeBuilder } from './node_builder'
 import { BasicExecutionNode, Node, Source, Sink } from './node'
 import { level } from './level'
 import { Tis100State } from './macros'
@@ -12,7 +12,7 @@ export class Tis100 {
 
   constructor(level: level) {
     this.level = level
-    let nodeFactory = new NodeFactory(
+    let nodeBuilder = new NodeBuilder(
       level.x,
       level.y,
       level.sources,
@@ -23,9 +23,9 @@ export class Tis100 {
     Sink._id = 0
     Source._id = 0
 
-    this.nodeGrid = nodeFactory.getNodeGrid()
-    this.sinks = nodeFactory.getSinks()
-    this.sources = nodeFactory.getSources()
+    this.nodeGrid = nodeBuilder.getNodeGrid()
+    this.sinks = nodeBuilder.getSinks()
+    this.sources = nodeBuilder.getSources()
   }
 
   stop() {

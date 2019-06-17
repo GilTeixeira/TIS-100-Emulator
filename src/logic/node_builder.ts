@@ -2,7 +2,7 @@ import { BasicExecutionNode, Source, Sink, NullSink, NullSource } from './node'
 import { Port } from './port'
 import { Directions } from './macros'
 
-export class NodeFactory {
+export class NodeBuilder {
   private nodeGrid: BasicExecutionNode[][]
   private sources: Source[]
   private sinks: Sink[]

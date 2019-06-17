@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { NodeFactory } from '../node_factory'
+import { NodeBuilder } from '../node_builder'
 import { Directions, NodeState } from '../macros'
 import {
   NopCommand,
@@ -23,8 +23,8 @@ import 'mocha'
 import { BasicExecutionNode } from '../node'
 import { Tis100 } from '../tis_100'
 
-describe('Test NodeFactory', () => {
-  let nodeFac = new NodeFactory(2, 2, [], [])
+describe('Test NodeBuilder', () => {
+  let nodeFac = new NodeBuilder(2, 2, [], [])
   let grid = nodeFac.getNodeGrid()
 
   it('Test Ports', () => {
