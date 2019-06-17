@@ -29,7 +29,7 @@ Develop a [TIS-100](http://www.zachtronics.com/tis-100/) clone, a programming ga
 ### Architecture
 
 Placeholder:
-![](https://i.imgur.com/0y4YZD7.png)
+![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/arch_diagram.png)
 
 ### Design Patterns Used
 
