@@ -28,8 +28,8 @@ Develop a [TIS-100](http://www.zachtronics.com/tis-100/) clone, a programming ga
 
 ### Architecture
 
-![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/arch_diagram.png)
-
+Placeholder:
+![](https://i.imgur.com/0y4YZD7.png)
 
 ### Design Patterns Used
 
@@ -187,11 +187,9 @@ export abstract class Node {
 ```
 
 #### [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern)
-
 Builder pattern was used to build the TIS-100 nodes using a step by step approach. First the grid of main nodes is created, following by the sources and sinks, finally the ports that connect adjacent are built.
 
 ![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/builder.png)
-
 ```typescript
 
 export class NodeBuilder {
@@ -230,6 +228,8 @@ export class NodeBuilder {
 #### [Iterator Pattern](https://en.wikipedia.org/wiki/Iterator_pattern)
 
 This pattern was used to sequentially access the commands of an array of commands, without the implementation being exposed. Moreover, it was also implemented a way to handle the jumps between the instructions.
+
+![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/Iterator.png)
 ```typescript
 class BasicExecutionNode extends Node {
   private commands: Command[] = []
@@ -244,6 +244,23 @@ class BasicExecutionNode extends Node {
   incIndex() {
     if (++this.index >= this.commands.length) this.index = 0
   }
+}
+
+
+export abstract class AbsCommand implements ICommand {
+  constructor(
+    readonly node: BasicExecutionNode,
+    readonly labels: string[],
+    readonly line: number
+  ) {}
+
+  executeRead() {}
+
+  executeWrite() {
+    this.node.incIndex()
+  }
+  
+  /** (...) **/
 }
 ```
 
