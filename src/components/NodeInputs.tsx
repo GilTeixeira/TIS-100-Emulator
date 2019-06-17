@@ -50,6 +50,13 @@ class NodeInputs extends React.Component<NodeInputsProps> {
           this.inputs[i + 1].focus()
           this.inputs[i + 1].setSelectionRange(prevSelection, prevSelection)
         }
+
+        if(event.key === 'Backspace' && prevSelection === 0) {
+          // this.inputs[
+          //   i - 1 >= 0 ? i - 1 : this.inputs.length - 1
+          // ].setSelectionRange(prevSelection, prevSelection)
+          this.inputs[i - 1 >= 0 ? i - 1 : i].focus()
+        }
       })
 
       input.addEventListener('focusout', _ => {
