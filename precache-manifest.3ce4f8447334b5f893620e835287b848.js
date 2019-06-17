@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5195e276dfdc78737c9803be783afd43",
+    "revision": "daf0e5c072f9f82dc38803201979ace3",
     "url": "/feup-asso/index.html"
   },
   {
-    "revision": "c32187aacce02ba29cb6",
+    "revision": "93079cd41176f2489370",
     "url": "/feup-asso/static/css/main.8059e3e7.chunk.css"
   },
   {
-    "revision": "14683419dd92d03cab24",
-    "url": "/feup-asso/static/js/2.33611250.chunk.js"
+    "revision": "62a41a7616435705884a",
+    "url": "/feup-asso/static/js/2.7daf99e3.chunk.js"
   },
   {
-    "revision": "c32187aacce02ba29cb6",
-    "url": "/feup-asso/static/js/main.bb35e50b.chunk.js"
+    "revision": "93079cd41176f2489370",
+    "url": "/feup-asso/static/js/main.ffe40068.chunk.js"
   },
   {
     "revision": "2c0bbe87fc5a563e24dd",
