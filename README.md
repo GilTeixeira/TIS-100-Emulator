@@ -1,7 +1,5 @@
 # TIS-100 Emulator
-TIS-100 is an open-ended programming game in which you rewrite corrupted code segments to repair the TIS-100 and unlock its secrets. It’s the assembly language programming game you never asked for!
 
----
 ### [Demo](https://gilteixeira.github.io/feup-asso/)
 ![](https://github.com/GilTeixeira/feup-asso/blob/master/wiki_patterns/demo.png)
 
@@ -25,10 +23,9 @@ Develop a [TIS-100](http://www.zachtronics.com/tis-100/) clone, a programming ga
 ### Functionalities
 - Support for multiple levels.
 - Parse and Error handling of users' input.
-- 
+- Step over instructions
 ---
 
----
 ### Architecture
 
 Placeholder:
@@ -267,12 +264,13 @@ class BasicExecutionNode extends Node {
 ```
 
 ### React
-The UI for this project was developed using [React](https://reactjs.org/). The library was chosen to simplify rendering such a complex state in the browser. The group was already familiar with react so it was straightforward to imlement. There are several design patterns that are used by the framework which are present in the project, we'll talk more about some of them below.
+The UI for this project was developed using [React](https://reactjs.org/). The library was chosen to simplify rendering such a complex state in the browser. The group was already familiar with react so it was straightforward to implement. There are several design patterns that are used by the framework which are present in the project, we'll talk more about some of them below.
 
 #### [Composite Pattern](https://en.wikipedia.org/wiki/Composite_pattern)
 
-One of the central features of react is the components, these components are classes that implemente a render method that renders the component straight to the DOM. A component can render other components in it's render method, that in turn will call said component render and so forth.
-```typescript
+One of the central features of react is the components, these components are classes that implement a render method that renders the component straight to the DOM. A component can render other components in it's render method, that in turn will call said component render and so forth.
+
+```js
 class Node extends React.Component<NodeProps, NodeState> {
   private nodeInputs: NodeInputs
 
@@ -329,25 +327,64 @@ class Node extends React.Component<NodeProps, NodeState> {
 ```
 
 #### [Model-View-Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+
+React mostly follows the MVC pattern in it's functionality, a View, in this case called a component, displays a Model's data to the user, in this case the TIS-100 logic. The Controller that manipulates the model is also implemented in the components, such as EventListeners for buttons and inputs. When the user changes anything the tis-100 object is updated internally in the React state, causing the framework to re-render the views with the new state.
+
+An example of the interaction described above can be seen below
+```typescript
+stop() {
+    if (this.state.state === State.ERROR) return
+
+    if (this.state.state !== State.IDLE) {
+      this.setState(state => ({ ...state, state: State.IDLE }))
+      clearInterval(this.interval)
+    }
+
+    this.state.tis_100.stop()
+    this.refreshRender()
+  }
+```
+When `stop()` is called by the user pressing the stop button, the internal componnent state is updated which in turn updates the component in the browser.
+
+#### [State Pattern](https://en.wikipedia.org/wiki/State_pattern)
+
+Each react component has it's own state, changes to the component state force the component and its children to be re-rendered with the updated state.
+
+```typescript
+class App extends React.Component<AppProps, AppState> {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      tis_100: new Tis100(levels[0]),
+      state: State.IDLE,
+      currentLevel: 0
+    }
+  }
+
+  ...
+  
+}
+```
+
 ---
 
 
 ### Design Review
 
-
 #### Does the architecture satisfy the requirements?
+The finished architecture models everything that was proposed in the begining.
 
 #### Is effective modularity achieved?
-
-#### Are interfaces defined for modules and external system elements?
-
-#### Is the structure of the data and its organisation consistent with the domain of the requirements?
-
-#### Is the structure of the data consistent with the requirements?
+The TIS-100 machine logic is completely isolated from the UI components, if a new machine is created and updated in the App controller state, this new machine would be rendered without requiring anything else to be changed in the view layer.
 
 #### Has maintainability been considered?
+New functionalities and tests should be straightforward to implement since all of the TIS-100 functionality is propperly divided assuring a high level of cohesion in the code.
 
 #### Have quality factors been explicitly assessed?
+There are tests to assert that some logic functionalities work properly, more test should be implemented for a more thorough comerage of the logic codebase. No tests were implemented for the UI layer built with React.
+All of the code was linted to assure a certain code quality and best practices.
 
 ### Building the project
 In the project directory, you can run:
@@ -364,5 +401,7 @@ Open http://localhost:3000 to view it in the browser.
 - [Gil Teixeira](https://github.com/GilTeixeira)
 - [João Lago](https://github.com/joaolago1337)
 - [Paulo Correia](https://github.com/Pipas)
+
+Original TIS-100 game by [Zacktronics](http://www.zachtronics.com/tis-100/)
 
 
