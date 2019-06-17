@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5241465f48a78ec2a6a48e63322d7f9d",
+    "revision": "5195e276dfdc78737c9803be783afd43",
     "url": "/feup-asso/index.html"
   },
   {
